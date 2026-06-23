@@ -1,0 +1,14 @@
+{
+  "TYPES": {
+    "Actor": {
+      "character": "Character",
+      "hazard": "Hazard"
+    },
+    "Item": {
+      "role": "Role",
+      "aspect": "Aspect",
+      "class": "Class",
+      "edge": "Edge"
+    }
+  }
+}

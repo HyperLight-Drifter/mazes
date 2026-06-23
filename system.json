@@ -1,0 +1,27 @@
+{
+  "id": "mazes",
+  "title": "Mazes",
+  "description": "An unofficial system for Mazes.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "12",
+    "verified": "14"
+  },
+  "authors": [{ "name": "starec" }],
+  "esmodules": ["scripts/mazes.js"],
+  "styles": ["styles/mazes.css"],
+  "documentTypes": {
+    "Actor": {
+      "character": {},
+      "hazard": {}
+    },
+    "Item": {
+      "role": {},
+      "aspect": {},
+      "class": {},
+      "edge": {}
+    }
+  },
+  "packs": [],
+  "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }]
+}

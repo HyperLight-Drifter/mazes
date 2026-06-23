@@ -1,0 +1,34 @@
+<div class="item-sheet-body">
+
+  <div class="item-sheet-row">
+    <div class="item-sheet-field">
+      <span class="mazes-label">NAME</span>
+      <input type="text" name="name" value="{{item.name}}" />
+    </div>
+    <div class="item-sheet-field narrow">
+      <span class="mazes-label">DIE</span>
+      <select name="system.die">
+        {{#each (array "d4" "d6" "d8" "d10") as |d|}}
+        <option value="{{d}}" {{#if (eq ../system.die d)}}selected{{/if}}>{{d}}</option>
+        {{/each}}
+      </select>
+    </div>
+  </div>
+
+  <div class="item-sheet-row">
+    <div class="item-sheet-field narrow">
+      <span class="mazes-label">HEARTS MAX</span>
+      <input type="number" name="system.heartsMax" value="{{system.heartsMax}}" min="0" />
+    </div>
+    <div class="item-sheet-field narrow">
+      <span class="mazes-label">STARS MAX</span>
+      <input type="number" name="system.starsMax" value="{{system.starsMax}}" min="0" />
+    </div>
+  </div>
+
+  <div class="item-sheet-field">
+    <span class="mazes-label">DESCRIPTION</span>
+    <textarea name="system.description">{{system.description}}</textarea>
+  </div>
+
+</div>

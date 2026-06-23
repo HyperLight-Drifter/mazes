@@ -1,0 +1,205 @@
+<div class="mazes-sheet">
+
+  {{!-- MAIN BODY --}}
+  <div class="mazes-body">
+
+    {{!-- HEADER: portrait + name + concept --}}
+    <div class="sheet-header">
+      <img class="portrait" src="{{actor.img}}" title="{{actor.name}}" />
+      <div class="identity">
+        <span class="mazes-label">NAME</span>
+        <input type="text" class="mazes-input" name="name" value="{{actor.name}}" />
+        <span class="mazes-label">CONCEPT</span>
+        <textarea name="system.concept">{{system.concept}}</textarea>
+      </div>
+    </div>
+
+    {{!-- RESOURCE BAR (always visible) --}}
+    <div class="resource-bar">
+      <div class="tracker">
+        <span class="mazes-label">HEARTS</span>
+        <div class="tracker-inputs">
+          <input type="number" class="mazes-input" name="system.hearts.value" value="{{system.hearts.value}}" min="0" />
+          <span class="tracker-slash">/</span>
+          <input type="number" class="mazes-input" name="system.hearts.max" value="{{system.hearts.max}}" min="0" />
+        </div>
+      </div>
+      <div class="tracker">
+        <span class="mazes-label">STARS</span>
+        <div class="tracker-inputs">
+          <input type="number" class="mazes-input" name="system.stars.value" value="{{system.stars.value}}" min="0" />
+          <span class="tracker-slash">/</span>
+          <input type="number" class="mazes-input" name="system.stars.max" value="{{system.stars.max}}" min="0" />
+        </div>
+      </div>
+      <div class="tracker tracker-single">
+        <span class="mazes-label">GEARS</span>
+        <div class="tracker-inputs">
+          <input type="number" class="mazes-input" name="system.gears" value="{{system.gears}}" min="0" />
+        </div>
+      </div>
+      <div class="tracker tracker-single">
+        <span class="mazes-label">LORE</span>
+        <div class="tracker-inputs">
+          <input type="number" class="mazes-input" name="system.lore" value="{{system.lore}}" min="0" />
+        </div>
+      </div>
+      <div class="tracker tracker-single">
+        <span class="mazes-label">WEALTH</span>
+        <div class="tracker-inputs">
+          <input type="number" class="mazes-input" name="system.wealth" value="{{system.wealth}}" min="0" />
+        </div>
+      </div>
+      <div class="tracker tracker-single">
+        <span class="mazes-label">LIFESTYLE</span>
+        <div class="tracker-inputs">
+          <input type="text" class="mazes-input" name="system.lifestyle" value="{{system.lifestyle}}" />
+        </div>
+      </div>
+    </div>
+
+    {{!-- TAB BUTTONS --}}
+    <div class="mazes-tabs">
+      <button type="button" class="tab-btn active" data-tab="sheet">Sheet</button>
+      <button type="button" class="tab-btn" data-tab="conditions">Conditions</button>
+      <button type="button" class="tab-btn" data-tab="notes">Notes</button>
+    </div>
+
+    {{!-- SHEET TAB --}}
+    <div class="tab-content active" data-tab="sheet">
+      <div class="two-columns">
+
+        {{!-- LEFT COLUMN: role / aspect / class / edges --}}
+        <div class="col-left">
+
+          {{!-- ROLE --}}
+          <div class="section-header">
+            <span class="mazes-label">ROLE</span>
+            <button type="button" class="section-add-btn" data-type="role">+</button>
+          </div>
+          <div class="drop-zone" data-type="role">
+            {{#if role}}
+            <div class="item-entry" data-item-id="{{role.id}}">
+              <div class="item-header">
+                <button type="button" class="fold-btn">▶</button>
+                <span class="item-name">{{role.name}}</span>
+                <span class="item-meta">{{role.system.die}}</span>
+                <button type="button" class="item-edit-btn" data-item-id="{{role.id}}">✎</button>
+                <button type="button" class="item-delete-btn" data-item-id="{{role.id}}">×</button>
+              </div>
+              <div class="item-body">{{role.system.description}}</div>
+            </div>
+            {{else}}
+            <span class="drop-hint">Drop role here</span>
+            {{/if}}
+          </div>
+
+          {{!-- ASPECT --}}
+          <div class="section-header">
+            <span class="mazes-label">ASPECT</span>
+            <button type="button" class="section-add-btn" data-type="aspect">+</button>
+          </div>
+          <div class="drop-zone" data-type="aspect">
+            {{#if aspect}}
+            <div class="item-entry" data-item-id="{{aspect.id}}">
+              <div class="item-header">
+                <button type="button" class="fold-btn">▶</button>
+                <span class="item-name">{{aspect.name}}</span>
+                <button type="button" class="item-edit-btn" data-item-id="{{aspect.id}}">✎</button>
+                <button type="button" class="item-delete-btn" data-item-id="{{aspect.id}}">×</button>
+              </div>
+              <div class="item-body">{{aspect.system.description}}</div>
+            </div>
+            {{else}}
+            <span class="drop-hint">Drop aspect here</span>
+            {{/if}}
+          </div>
+
+          {{!-- CLASS --}}
+          <div class="section-header">
+            <span class="mazes-label">CLASS</span>
+            <button type="button" class="section-add-btn" data-type="class">+</button>
+          </div>
+          <div class="drop-zone" data-type="class">
+            {{#if cls}}
+            <div class="item-entry" data-item-id="{{cls.id}}">
+              <div class="item-header">
+                <button type="button" class="fold-btn">▶</button>
+                <span class="item-name">{{cls.name}}</span>
+                <span class="item-meta">{{cls.system.die}}</span>
+                <button type="button" class="item-edit-btn" data-item-id="{{cls.id}}">✎</button>
+                <button type="button" class="item-delete-btn" data-item-id="{{cls.id}}">×</button>
+              </div>
+              <div class="item-body">{{cls.system.description}}</div>
+            </div>
+            {{else}}
+            <span class="drop-hint">Drop class here</span>
+            {{/if}}
+          </div>
+
+          {{!-- EDGES --}}
+          <div class="section-header">
+            <span class="mazes-label">EDGE</span>
+            <button type="button" class="section-add-btn edge-add-btn">+</button>
+          </div>
+          <div class="drop-zone" data-type="edge">
+            {{#each edges as |edge|}}
+            <div class="item-entry" data-item-id="{{edge.id}}">
+              <div class="item-header">
+                <button type="button" class="fold-btn">▶</button>
+                <span class="item-name">{{edge.name}}</span>
+                <button type="button" class="item-edit-btn" data-item-id="{{edge.id}}">✎</button>
+                <button type="button" class="item-delete-btn" data-item-id="{{edge.id}}">×</button>
+              </div>
+              <div class="item-body">{{edge.system.description}}</div>
+            </div>
+            {{else}}
+            <span class="drop-hint">Drop edges here</span>
+            {{/each}}
+          </div>
+        </div>{{!-- end col-left --}}
+
+        {{!-- RIGHT COLUMN: action roll buttons --}}
+        <div class="col-right">
+          <div class="section-header">
+            <span class="mazes-label">ACTIONS</span>
+          </div>
+          <div class="action-list">
+            {{#each actions as |action|}}
+            <button type="button" class="action-btn" data-action="{{action.key}}">
+              <span class="action-btn-label">{{action.label}}</span>
+              {{#if action.thresholds.length}}
+              <span class="action-btn-thresholds">{{join action.thresholds ", "}}</span>
+              {{/if}}
+              <span class="action-die-icon">
+                <svg viewBox="0 0 18 18" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="6"  cy="6"  r="1.2" fill="currentColor"/>
+                  <circle cx="12" cy="6"  r="1.2" fill="currentColor"/>
+                  <circle cx="6"  cy="12" r="1.2" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+                </svg>
+              </span>
+            </button>
+            {{/each}}
+          </div>
+        </div>{{!-- end col-right --}}
+
+      </div>{{!-- end two-columns --}}
+    </div>{{!-- end sheet tab --}}
+
+    {{!-- CONDITIONS TAB --}}
+    <div class="tab-content" data-tab="conditions">
+      <textarea class="full-textarea" name="system.conditions">{{system.conditions}}</textarea>
+    </div>
+
+    {{!-- NOTES TAB --}}
+    <div class="tab-content" data-tab="notes">
+      <textarea class="full-textarea" name="system.notes">{{system.notes}}</textarea>
+    </div>
+
+  </div>{{!-- end mazes-body --}}
+
+
+
+</div>{{!-- end mazes-sheet --}}

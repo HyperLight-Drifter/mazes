@@ -1,0 +1,587 @@
+@import url('https://fonts.googleapis.com/css2?family=Ruslan+Display&display=swap');
+
+/* ── ROOT VARIABLES ── */
+:root {
+  --mazes-bg:          #111111;
+  --mazes-bg-light:    #252525;
+  --mazes-bg-section:  #1f1f1f;
+  --mazes-text:        #e2e2e2;
+  --mazes-text-dim:    #888;
+  --mazes-input-bg:    #f0f0f0;
+  --mazes-input-text:  #111;
+  --mazes-label:       #ffffff;
+  --mazes-tab-bg:      #1a1a1a;
+  --mazes-tab-active:  #2a2a2a;
+  --mazes-tab-border:  #444;
+  --mazes-hint:        #555;
+  --mazes-delete:      #c0392b;
+  --mazes-fold:        #aaa;
+}
+
+/* ── WINDOW OUTLINE ── */
+.mazes.window-app .window-content {
+  box-shadow: inset 0 0 0 1px #4a4a4a;
+}
+
+/* ── SHEET WRAPPER ── */
+.mazes-sheet {
+  display: flex;
+  flex-direction: row;
+  height: 100%;
+  background: var(--mazes-bg);
+  color: var(--mazes-text);
+  font-size: 14px;
+  font-family: ui-sans-serif, sans-serif;
+  overflow: hidden;
+}
+
+/* ── MAIN BODY (scrollable) ── */
+.mazes-body {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 10px 10px 16px 10px;
+  min-width: 0;
+}
+
+.mazes-body::-webkit-scrollbar { width: 6px; }
+.mazes-body::-webkit-scrollbar-track { background: var(--mazes-bg); }
+.mazes-body::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
+
+/* ── TAB BUTTONS ─ */
+.mazes-tabs {
+  display: flex;
+  flex-direction: row;
+  background: var(--mazes-bg);
+  flex-shrink: 0;
+  margin-bottom: 0;
+  border-bottom: 1px solid var(--mazes-label);
+}
+
+.tab-btn {
+  writing-mode: horizontal-tb;
+  transform: none;
+  padding: 4px 14px 0;
+  cursor: pointer;
+  font-family: 'Ruslan Display', serif;
+  font-size: 16px;
+  letter-spacing: 0.05em;
+  color: var(--mazes-label);
+  background: var(--mazes-bg);
+  border: none;
+  outline: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border-radius: 0;
+}
+
+.tab-btn:first-child {
+  border-top: none;
+}
+
+.tab-btn.active {
+  background: var(--mazes-label);
+  color: var(--mazes-bg);
+  border-bottom: 2px solid var(--mazes-label);
+  margin-bottom: -2px;
+}
+
+.tab-btn:focus,
+.tab-btn:focus-visible,
+.tab-btn:active,
+.tab-btn.active {
+  outline: 0 !important;
+  box-shadow: 0 0 0 0 transparent !important;
+}
+
+/* ── MAZES LABEL ── */
+.mazes-label {
+  font-family: 'Ruslan Display', serif;
+  font-size: 20px;
+  color: var(--mazes-label);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+  line-height: 1;
+}
+
+/* ── STANDARD INPUT ── */
+.mazes-input {
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  padding: 0 4px;
+  font-size: 14px;
+  height: 26px;
+  line-height: 26px;
+  box-sizing: border-box;
+}
+
+.mazes-input:focus {
+  outline: none;
+}
+
+input[type="number"].mazes-input {
+  width: 40px;
+  text-align: center;
+  -moz-appearance: textfield;
+}
+
+input[type="number"].mazes-input::-webkit-outer-spin-button,
+input[type="number"].mazes-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+/* ── SHEET HEADER ── */
+.sheet-header {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: stretch;
+  margin-bottom: 8px;
+}
+
+.portrait {
+  width: 90px;
+  height: 90px;
+  object-fit: cover;
+  cursor: pointer;
+  flex-shrink: 0;
+  background: #111;
+}
+
+.identity {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+  justify-content: center;
+}
+
+.identity input[type="text"] {
+  width: 446px;
+  box-sizing: border-box;
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  padding: 0 4px;
+  height: 26px;
+  line-height: 26px;
+}
+
+.identity textarea {
+  width: 446px;
+  box-sizing: border-box;
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  padding: 4px;
+  resize: none;
+  overflow: hidden;
+  min-height: 26px;
+  field-sizing: content;
+}
+
+/* ── RESOURCE BAR ── */
+.resource-bar {
+  display: flex;
+  flex-direction: row;
+  gap: 4px;
+  padding: 6px 0;
+  margin-bottom: 8px;
+  width: 542px;
+}
+
+.tracker {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+.tracker .mazes-label {
+  font-size: 14px;
+}
+
+.tracker-inputs {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 100%;
+  border: 1px solid #999;
+}
+
+.tracker-single .tracker-inputs {
+  width: 86px;
+}
+
+.tracker-inputs input {
+  flex: 1;
+  min-width: 0;
+  text-align: center;
+  background: var(--mazes-input-bg);
+  border: none;
+  border-radius: 0;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  padding: 0 4px;
+  height: 26px;
+  line-height: 26px;
+  box-sizing: border-box;
+  -moz-appearance: textfield;
+}
+
+.tracker-inputs input::-webkit-outer-spin-button,
+.tracker-inputs input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.tracker-inputs input:focus {
+  outline: none;
+}
+
+.tracker-slash {
+  background: var(--mazes-input-bg);
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 2px;
+  flex-shrink: 0;
+}
+
+/* ── TAB CONTENT ── */
+.tab-content {
+  display: none;
+}
+
+.tab-content.active {
+  display: block;
+}
+
+/* ── TWO COLUMN LAYOUT ── */
+.two-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: flex-start;
+}
+
+.col-left {
+  width: 260px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+.col-right {
+  width: 260px;
+  flex-shrink: 0;
+  flex-grow: 0;
+}
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  margin-top: 10px;
+}
+
+.section-header:first-child {
+  margin-top: 0;
+}
+
+.section-add-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-label);
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.section-add-btn:hover {
+  opacity: 0.7;
+}
+
+/* ── DROP ZONE ── */
+.drop-zone {
+  min-height: 30px;
+  padding: 4px;
+  background: var(--mazes-bg-section);
+  margin-bottom: 2px;
+}
+
+.drop-zone.dragover {
+  background: #2a2a2a;
+}
+
+.drop-hint {
+  color: var(--mazes-hint);
+  font-size: 13px;
+  font-style: italic;
+  display: block;
+  padding: 2px;
+}
+
+/* ── ITEM ENTRY ── */
+.item-entry {
+  background: var(--mazes-bg-light);
+  margin-bottom: 3px;
+}
+
+.item-header {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 6px;
+}
+
+.fold-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-fold);
+  cursor: pointer;
+  font-size: 10px;
+  padding: 0;
+  flex-shrink: 0;
+  transition: transform 0.15s;
+  line-height: 1;
+  outline: none;
+}
+
+.fold-btn:focus, .fold-btn:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.item-entry.unfolded .fold-btn {
+  transform: rotate(90deg);
+}
+
+.item-name {
+  font-size: 14px;
+  color: var(--mazes-text);
+  flex: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.item-meta {
+  font-size: 14px;
+  color: var(--mazes-text-dim);
+  flex-shrink: 0;
+}
+
+.item-edit-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-label);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.item-edit-btn:focus, .item-edit-btn:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.item-edit-btn:hover {
+  opacity: 0.7;
+}
+
+.item-delete-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-label);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.item-delete-btn:hover {
+  color: var(--mazes-delete);
+}
+
+.item-body {
+  display: none;
+  padding: 4px 8px 6px 8px;
+  font-size: 14px;
+  color: var(--mazes-text);
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.item-entry.unfolded .item-body {
+  display: block;
+}
+
+/* ── ACTION BUTTONS (right column) ── */
+.col-right .section-header:first-child {
+  margin-top: 8px;
+  margin-bottom: 8px;
+}
+
+.action-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.action-btn {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 30px;
+  padding: 10px 10px 5px;
+  background: var(--mazes-bg-section);
+  border: none;
+  color: var(--mazes-text);
+  cursor: pointer;
+  text-align: left;
+  gap: 15px;
+  box-sizing: border-box;
+}
+
+.action-btn:hover {
+  background: #2a2a2a;
+}
+
+.action-btn-label {
+  font-family: 'Ruslan Display', serif;
+  font-size: 18px;
+  color: var(--mazes-label);
+  text-transform: uppercase;
+  letter-spacing: 0.02em;
+  flex-shrink: 0;
+}
+
+.action-btn-thresholds {
+  font-family: 'Ruslan Display', serif;
+  font-size: 18px;
+  color: var(--mazes-label);
+  flex: 1;
+  text-align: right;
+  letter-spacing: 0.02em;
+}
+
+.action-die-icon {
+  flex-shrink: 0;
+  opacity: 0.5;
+}
+
+.action-die-icon svg {
+  display: block;
+}
+
+/* ── CONDITIONS / NOTES TABS ── */
+.full-textarea {
+  width: 100%;
+  box-sizing: border-box;
+  min-height: 300px;
+  background: var(--mazes-bg-section);
+  border: none;
+  color: var(--mazes-text);
+  font-size: 14px;
+  padding: 8px;
+  resize: vertical;
+  font-family: ui-sans-serif, sans-serif;
+  line-height: 1.5;
+}
+
+.full-textarea:focus {
+  outline: none;
+}
+
+/* ── ITEM SHEETS (dark theme) ── */
+.mazes.sheet.item .window-content {
+  background: var(--mazes-bg);
+  color: var(--mazes-text);
+  padding: 12px;
+}
+
+.mazes.sheet.item input,
+.mazes.sheet.item select {
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  padding: 0 6px;
+  height: 26px;
+  line-height: 26px;
+  box-sizing: border-box;
+}
+
+.mazes.sheet.item textarea {
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  padding: 4px 6px;
+  font-family: ui-sans-serif, sans-serif;
+  line-height: 1.5;
+  resize: vertical;
+}
+
+.mazes.sheet.item input:focus,
+.mazes.sheet.item select:focus,
+.mazes.sheet.item textarea:focus {
+  outline: none;
+}
+
+.item-sheet-body {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.item-sheet-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 10px;
+}
+
+.item-sheet-field {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  flex: 1;
+}
+
+.item-sheet-field input,
+.item-sheet-field select,
+.item-sheet-field textarea {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.item-sheet-field textarea {
+  min-height: 180px;
+}
+
+.item-sheet-field.narrow {
+  flex: 0 0 auto;
+  width: 90px;
+}
+
+/* ── CHAT OUTPUT ── */
+.mazes-roll-chat .roll-label-text {
+  font-family: 'Ruslan Display', serif;
+  font-size: 14px;
+  color: #ccc;
+  margin: 0 0 4px 0;
+  text-transform: uppercase;
+}
