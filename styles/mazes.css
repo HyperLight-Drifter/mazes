@@ -740,7 +740,10 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 
 /* ── HAZARD SHEET ── */
 .mazes.sheet.actor.hazard .full-textarea {
-  min-height: 330px;
+  min-height: 0;
+  resize: none;
+  overflow: hidden;
+  field-sizing: content;
 }
 
 .mazes.sheet.actor.hazard .resource-bar {
