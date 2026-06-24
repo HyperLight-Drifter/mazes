@@ -8,7 +8,7 @@
     "verified": "14"
   },
   "authors": [{ "name": "starec" }],
-  "esmodules": ["scripts/mazes.js"],
+  "esmodules": ["scripts/mazes.js", "scripts/game-sheet.js"],
   "styles": ["styles/mazes.css"],
   "documentTypes": {
     "Actor": {

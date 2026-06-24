@@ -1,10 +1,8 @@
 export class RoleData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
-    const { StringField, NumberField } = foundry.data.fields;
+    const { StringField } = foundry.data.fields;
     return {
-      die:        new StringField({ initial: "d6", choices: ["d4", "d6", "d8", "d10"] }),
-      heartsMax:  new NumberField({ required: true, initial: 6, min: 0, integer: true }),
-      starsMax:   new NumberField({ required: true, initial: 6, min: 0, integer: true }),
+      die:         new StringField({ initial: "d6", choices: ["d4", "d6", "d8", "d10"] }),
       description: new StringField({ initial: "" }),
     };
   }

@@ -5,9 +5,9 @@
   --mazes-bg:          #111111;
   --mazes-bg-light:    #252525;
   --mazes-bg-section:  #1f1f1f;
-  --mazes-text:        #e2e2e2;
-  --mazes-text-dim:    #888;
-  --mazes-input-bg:    #f0f0f0;
+  --mazes-text:        #ffffff;
+  --mazes-text-dim:    #ffffff;
+  --mazes-input-bg:    #ffffff;
   --mazes-input-text:  #111;
   --mazes-label:       #ffffff;
   --mazes-tab-bg:      #1a1a1a;
@@ -15,7 +15,7 @@
   --mazes-tab-border:  #444;
   --mazes-hint:        #555;
   --mazes-delete:      #c0392b;
-  --mazes-fold:        #aaa;
+  --mazes-fold:        #ffffff;
 }
 
 /* ── WINDOW OUTLINE ── */
@@ -40,18 +40,16 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
+  scrollbar-color: #ffffff var(--mazes-bg);
   padding: 10px 10px 16px 10px;
   min-width: 0;
 }
-
-.mazes-body::-webkit-scrollbar { width: 6px; }
-.mazes-body::-webkit-scrollbar-track { background: var(--mazes-bg); }
-.mazes-body::-webkit-scrollbar-thumb { background: #444; border-radius: 3px; }
 
 /* ── TAB BUTTONS ─ */
 .mazes-tabs {
   display: flex;
   flex-direction: row;
+  width: 542px;
   background: var(--mazes-bg);
   flex-shrink: 0;
   margin-bottom: 0;
@@ -332,8 +330,8 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 
 /* ── ITEM ENTRY ── */
 .item-entry {
-  background: var(--mazes-bg-light);
-  margin-bottom: 3px;
+  background: var(--mazes-input-bg);
+  color: var(--mazes-input-text);
 }
 
 .item-header {
@@ -346,7 +344,7 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 .fold-btn {
   background: none;
   border: none;
-  color: var(--mazes-fold);
+  color: var(--mazes-input-text);
   cursor: pointer;
   font-size: 10px;
   padding: 0;
@@ -367,7 +365,8 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 
 .item-name {
   font-size: 14px;
-  color: var(--mazes-text);
+  font-weight: bold;
+  color: var(--mazes-input-text);
   flex: 1;
   white-space: nowrap;
   overflow: hidden;
@@ -376,14 +375,14 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 
 .item-meta {
   font-size: 14px;
-  color: var(--mazes-text-dim);
+  color: var(--mazes-input-text);
   flex-shrink: 0;
 }
 
 .item-edit-btn {
   background: none;
   border: none;
-  color: var(--mazes-label);
+  color: var(--mazes-input-text);
   cursor: pointer;
   font-size: 13px;
   padding: 0 2px;
@@ -403,7 +402,7 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 .item-delete-btn {
   background: none;
   border: none;
-  color: var(--mazes-label);
+  color: var(--mazes-input-text);
   cursor: pointer;
   font-size: 14px;
   padding: 0 2px;
@@ -419,7 +418,7 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   display: none;
   padding: 4px 8px 6px 8px;
   font-size: 14px;
-  color: var(--mazes-text);
+  color: var(--mazes-input-text);
   line-height: 1.5;
   white-space: pre-wrap;
 }
@@ -438,6 +437,10 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   display: flex;
   flex-direction: column;
   gap: 4px;
+}
+
+.action-list-gap {
+  margin-top: 16px;
 }
 
 .action-btn {
@@ -491,10 +494,11 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 .full-textarea {
   width: 100%;
   box-sizing: border-box;
-  min-height: 300px;
-  background: var(--mazes-bg-section);
+  min-height: 420px;
+  max-width: 542px;
+  background: var(--mazes-input-bg);
   border: none;
-  color: var(--mazes-text);
+  color: var(--mazes-input-text);
   font-size: 14px;
   padding: 8px;
   resize: vertical;
@@ -511,6 +515,9 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   background: var(--mazes-bg);
   color: var(--mazes-text);
   padding: 12px;
+  overflow-y: auto;
+  height: 100%;
+  scrollbar-color: #ffffff var(--mazes-bg);
 }
 
 .mazes.sheet.item input,
@@ -533,7 +540,8 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   padding: 4px 6px;
   font-family: ui-sans-serif, sans-serif;
   line-height: 1.5;
-  resize: vertical;
+  resize: none;
+  overflow: hidden;
 }
 
 .mazes.sheet.item input:focus,
@@ -569,7 +577,10 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 }
 
 .item-sheet-field textarea {
-  min-height: 180px;
+  min-height: 60px;
+  resize: none;
+  overflow: hidden;
+  field-sizing: content;
 }
 
 .item-sheet-field.narrow {
@@ -578,10 +589,291 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 }
 
 /* ── CHAT OUTPUT ── */
-.mazes-roll-chat .roll-label-text {
+.mazes-roll-chat {
+  font-family: 'Ruslan Display', serif;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 0;
+}
+
+.mazes-roll-chat .roll-action {
+  font-size: 22px;
+  margin: 0 0 2px 0;
+  line-height: 1;
+}
+
+.mazes-roll-chat .roll-mode {
+  font-size: 13px;
+  opacity: 0.6;
+  margin: 0 0 6px 0;
+  line-height: 1;
+}
+
+.mazes-roll-chat .roll-dice {
+  font-size: 28px;
+  margin: 0 0 6px 0;
+  line-height: 1;
+}
+
+.mazes-roll-chat .roll-resolution {
+  font-size: 18px;
+  margin: 0;
+  line-height: 1;
+}
+
+.mazes-roll-chat .roll-die {
+  font-size: 14px;
+  opacity: 0.6;
+  letter-spacing: 0.02em;
+}
+
+.mazes-roll-chat .roll-dice-dim {
+  opacity: 0.35;
+}
+
+.mazes-roll-chat .roll-resolution-title {
+  font-family: 'Ruslan Display', serif;
+  font-size: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  margin: 0;
+  line-height: 1;
+}
+
+.mazes-roll-chat .roll-resolution-body {
+  font-family: ui-sans-serif, sans-serif;
+  font-size: 14px;
+  text-transform: none;
+  letter-spacing: normal;
+  margin: 3px 0 0 0;
+  line-height: 1.4;
+}
+
+/* ── CONDITIONS GRID ── */
+.conditions-grid {
+  display: grid;
+  margin-top: 8px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 542px;
+}
+
+.condition-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 6px 8px;
+  background: var(--mazes-bg-light);
+  cursor: pointer;
+  min-height: 80px;
+}
+
+.condition-cell.active {
+  background: var(--mazes-input-bg);
+}
+
+.condition-cell.active .condition-label {
+  color: var(--mazes-bg);
+}
+
+.condition-cell.active .condition-text {
+  color: var(--mazes-bg);
+}
+
+.condition-label {
+  font-size: 20px;
+  display: block;
+  pointer-events: none;
+}
+
+.condition-text {
+  font-size: 14px;
+  color: var(--mazes-text);
+  line-height: 1.4;
+  pointer-events: none;
+}
+
+.condition-textarea {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--mazes-text);
+  font-size: 14px;
+  font-family: ui-sans-serif, sans-serif;
+  resize: none;
+  padding: 0;
+  outline: none;
+  cursor: text;
+}
+
+.condition-cell.active .condition-textarea {
+  color: var(--mazes-bg);
+}
+
+.condition-wounded,
+.condition-custom {
+  cursor: default;
+}
+
+.condition-custom-label {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--mazes-label);
+  font-family: 'Ruslan Display', serif;
+  font-size: 20px;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  width: 100%;
+  cursor: text;
+  padding: 0;
+}
+
+.conditions-grid .condition-custom-label::placeholder {
+  color: #ffffff;
+  opacity: 1;
+}
+
+.condition-cell.active .condition-custom-label {
+  color: var(--mazes-bg);
+}
+
+/* ── HAZARD SHEET ── */
+.mazes.sheet.actor.hazard .full-textarea {
+  min-height: 330px;
+}
+
+.mazes.sheet.actor.hazard .resource-bar {
+  width: auto;
+  justify-content: flex-start;
+  gap: 4px;
+}
+
+.mazes.sheet.actor.hazard .tracker {
+  width: 86px;
+  flex: none;
+}
+
+/* ── GAME SHEET WIDGET ── */
+#mazes-game-sheet .window-content {
+  background: var(--mazes-bg);
+  color: var(--mazes-text);
+  padding: 8px;
+}
+
+#mazes-game-sheet .window-header {
+  background: var(--mazes-bg);
+  border-bottom: 1px solid #444;
+}
+
+#mazes-game-sheet .window-title {
   font-family: 'Ruslan Display', serif;
   font-size: 14px;
-  color: #ccc;
-  margin: 0 0 4px 0;
+  color: var(--mazes-text);
   text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.mazes-game-sheet {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.gs-section {
+  padding: 8px 0;
+  border-bottom: 1px solid #333;
+}
+
+.gs-section:last-child {
+  border-bottom: none;
+}
+
+.gs-label {
+  font-size: 16px;
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.gs-sublabel {
+  font-size: 13px;
+  flex-shrink: 0;
+}
+
+.gs-comment {
+  font-family: ui-sans-serif, sans-serif;
+  font-size: 12px;
+  color: var(--mazes-text);
+  opacity: 0.75;
+  line-height: 1.4;
+  text-align: center;
+  margin-top: 4px;
+}
+
+.gs-counter {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-bottom: 6px;
+}
+
+.gs-counter-inline {
+  margin-bottom: 0;
+}
+
+.gs-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.gs-btn {
+  width: 26px;
+  height: 26px;
+  background: var(--mazes-bg-light);
+  border: none;
+  color: var(--mazes-text);
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gs-btn:hover {
+  background: #333;
+}
+
+.gs-input {
+  width: 48px;
+  height: 26px;
+  text-align: center;
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  font-family: ui-sans-serif, sans-serif;
+  -moz-appearance: textfield;
+}
+
+.gs-input::-webkit-outer-spin-button,
+.gs-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.gs-input:focus {
+  outline: none;
+}
+
+.gs-value {
+  font-size: 20px;
+  font-family: 'Ruslan Display', serif;
+  text-align: center;
+  display: block;
+  width: 100%;
 }

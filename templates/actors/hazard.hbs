@@ -1,0 +1,138 @@
+<div class="mazes-sheet">
+  <div class="mazes-body">
+
+    <div class="sheet-header">
+      <img class="portrait" src="{{actor.img}}" title="{{actor.name}}" />
+      <div class="identity">
+        <span class="mazes-label">NAME</span>
+        <input type="text" class="mazes-input" name="name" value="{{actor.name}}" />        
+      </div>
+    </div>
+
+    <div class="resource-bar">
+      <div class="tracker tracker-single">
+        <span class="mazes-label">DANGER</span>
+        <div class="tracker-inputs">
+          <input type="number" class="mazes-input" name="system.danger" value="{{system.danger}}" min="0" />
+        </div>
+      </div>
+      <div class="tracker">
+        <span class="mazes-label">HEARTS</span>
+        <div class="tracker-inputs">
+          <input type="number" class="mazes-input" name="system.hearts.value" value="{{system.hearts.value}}" min="0" />
+          <span class="tracker-slash">/</span>
+          <input type="number" class="mazes-input" name="system.hearts.max" value="{{system.hearts.max}}" min="0" />
+        </div>
+      </div>
+    </div>
+
+    <div class="mazes-tabs">
+      <button type="button" class="tab-btn active" data-tab="sheet">Sheet</button>
+      <button type="button" class="tab-btn" data-tab="conditions">Conditions</button>
+    </div>
+
+    <div class="tab-content active" data-tab="sheet">
+
+      <div class="section-header">
+        <span class="mazes-label">EDGES</span>
+        <button type="button" class="section-add-btn edge-add-btn">+</button>
+      </div>
+      <div class="two-columns">
+        <div class="col-left">
+          <div class="drop-zone" data-type="edge">
+            {{#each edgesLeft as |edge|}}
+            <div class="item-entry" data-item-id="{{edge.id}}">
+              <div class="item-header">
+                <button type="button" class="fold-btn">▶</button>
+                <span class="item-name">{{edge.name}}</span>
+                <button type="button" class="item-edit-btn" data-item-id="{{edge.id}}">✎</button>
+                <button type="button" class="item-delete-btn" data-item-id="{{edge.id}}">×</button>
+              </div>
+              <div class="item-body">{{edge.system.description}}</div>
+            </div>
+            {{else}}
+            <span class="drop-hint">Drop edges here</span>
+            {{/each}}
+          </div>
+        </div>
+        <div class="col-right">
+          <div class="drop-zone" data-type="edge">
+            {{#each edgesRight as |edge|}}
+            <div class="item-entry" data-item-id="{{edge.id}}">
+              <div class="item-header">
+                <button type="button" class="fold-btn">▶</button>
+                <span class="item-name">{{edge.name}}</span>
+                <button type="button" class="item-edit-btn" data-item-id="{{edge.id}}">✎</button>
+                <button type="button" class="item-delete-btn" data-item-id="{{edge.id}}">×</button>
+              </div>
+              <div class="item-body">{{edge.system.description}}</div>
+            </div>
+            {{else}}
+            <span class="drop-hint">Drop edges here</span>
+            {{/each}}
+          </div>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top: 10px;">
+        <span class="mazes-label">DESCRIPTION</span>
+      </div>
+      <textarea class="full-textarea" name="system.notes">{{system.notes}}</textarea>
+
+    </div>
+
+    <div class="tab-content" data-tab="conditions">
+      <div class="conditions-grid">
+        <div class="condition-cell {{#if system.conditions.stressed}}active{{/if}}" data-condition="stressed">
+          <span class="condition-label mazes-label">STRESSED</span>
+          <div class="condition-text">No KEY bonus, disadvantaged on BOOKS</div>
+        </div>
+        <div class="condition-cell {{#if system.conditions.tired}}active{{/if}}" data-condition="tired">
+          <span class="condition-label mazes-label">TIRED</span>
+          <div class="condition-text">Disadvantaged on BOOTS and BONES</div>
+        </div>
+        <div class="condition-cell {{#if system.conditions.hurt}}active{{/if}}" data-condition="hurt">
+          <span class="condition-label mazes-label">HURT</span>
+          <div class="condition-text">Disadvantaged on BLADES</div>
+        </div>
+        <div class="condition-cell {{#if system.conditions.hungry}}active{{/if}}" data-condition="hungry">
+          <span class="condition-label mazes-label">HUNGRY</span>
+          <div class="condition-text">No KEY bonus, disadvantaged on SUPPLY</div>
+        </div>
+        <div class="condition-cell {{#if system.conditions.burdened}}active{{/if}}" data-condition="burdened">
+          <span class="condition-label mazes-label">BURDENED</span>
+          <div class="condition-text">Fail on CROWN, disadvantaged on DOWNTIME</div>
+        </div>
+        <div class="condition-cell {{#if system.conditions.veteran}}active{{/if}}" data-condition="veteran">
+          <span class="condition-label mazes-label">VETERAN</span>
+          <div class="condition-text">Take VETERAN</div>
+        </div>
+        <div class="condition-cell {{#if system.conditions.marked}}active{{/if}}" data-condition="marked">
+          <span class="condition-label mazes-label">MARKED</span>
+          <div class="condition-text">Disadvantaged on DEATH'S DOOR</div>
+        </div>
+        <div class="condition-cell condition-wounded {{#if system.conditions.wounded}}active{{/if}}">
+          <span class="condition-label mazes-label">WOUNDED</span>
+          <textarea class="condition-textarea" name="system.conditions.wounded">{{system.conditions.wounded}}</textarea>
+        </div>
+        <div class="condition-cell {{#if system.conditions.down}}active{{/if}}" data-condition="down">
+          <span class="condition-label mazes-label">DOWN</span>
+          <div class="condition-text">No actions except DEATH'S DOOR, or receive AID</div>
+        </div>
+        <div class="condition-cell condition-custom {{#if system.conditions.custom1.text}}active{{/if}}">
+          <input class="condition-custom-label mazes-label" type="text" name="system.conditions.custom1.label" value="{{system.conditions.custom1.label}}" placeholder="CUSTOM" />
+          <textarea class="condition-textarea" name="system.conditions.custom1.text">{{system.conditions.custom1.text}}</textarea>
+        </div>
+        <div class="condition-cell condition-custom {{#if system.conditions.custom2.text}}active{{/if}}">
+          <input class="condition-custom-label mazes-label" type="text" name="system.conditions.custom2.label" value="{{system.conditions.custom2.label}}" placeholder="CUSTOM" />
+          <textarea class="condition-textarea" name="system.conditions.custom2.text">{{system.conditions.custom2.text}}</textarea>
+        </div>
+        <div class="condition-cell condition-custom {{#if system.conditions.custom3.text}}active{{/if}}">
+          <input class="condition-custom-label mazes-label" type="text" name="system.conditions.custom3.label" value="{{system.conditions.custom3.label}}" placeholder="CUSTOM" />
+          <textarea class="condition-textarea" name="system.conditions.custom3.text">{{system.conditions.custom3.text}}</textarea>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

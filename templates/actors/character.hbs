@@ -183,6 +183,23 @@
             </button>
             {{/each}}
           </div>
+
+          <div class="action-list action-list-gap">
+            {{#each recoveryActions as |action|}}
+            <button type="button" class="action-btn" data-action="{{action.key}}">
+              <span class="action-btn-label">{{action.label}}</span>
+              <span class="action-die-icon">
+                <svg viewBox="0 0 18 18" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="6"  cy="6"  r="1.2" fill="currentColor"/>
+                  <circle cx="12" cy="6"  r="1.2" fill="currentColor"/>
+                  <circle cx="6"  cy="12" r="1.2" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+                </svg>
+              </span>
+            </button>
+            {{/each}}
+          </div>
         </div>{{!-- end col-right --}}
 
       </div>{{!-- end two-columns --}}
@@ -190,7 +207,69 @@
 
     {{!-- CONDITIONS TAB --}}
     <div class="tab-content" data-tab="conditions">
-      <textarea class="full-textarea" name="system.conditions">{{system.conditions}}</textarea>
+      <div class="conditions-grid">
+
+        <div class="condition-cell {{#if system.conditions.stressed}}active{{/if}}" data-condition="stressed">
+          <span class="condition-label mazes-label">STRESSED</span>
+          <div class="condition-text">No KEY bonus, disadvantaged on BOOKS</div>
+        </div>
+
+        <div class="condition-cell {{#if system.conditions.tired}}active{{/if}}" data-condition="tired">
+          <span class="condition-label mazes-label">TIRED</span>
+          <div class="condition-text">Disadvantaged on BOOTS and BONES</div>
+        </div>
+
+        <div class="condition-cell {{#if system.conditions.hurt}}active{{/if}}" data-condition="hurt">
+          <span class="condition-label mazes-label">HURT</span>
+          <div class="condition-text">Disadvantaged on BLADES</div>
+        </div>
+
+        <div class="condition-cell {{#if system.conditions.hungry}}active{{/if}}" data-condition="hungry">
+          <span class="condition-label mazes-label">HUNGRY</span>
+          <div class="condition-text">No KEY bonus, disadvantaged on SUPPLY</div>
+        </div>
+
+        <div class="condition-cell {{#if system.conditions.burdened}}active{{/if}}" data-condition="burdened">
+          <span class="condition-label mazes-label">BURDENED</span>
+          <div class="condition-text">Fail on CROWN, disadvantaged on DOWNTIME</div>
+        </div>
+
+        <div class="condition-cell {{#if system.conditions.veteran}}active{{/if}}" data-condition="veteran">
+          <span class="condition-label mazes-label">VETERAN</span>
+          <div class="condition-text">Take VETERAN</div>
+        </div>
+
+        <div class="condition-cell {{#if system.conditions.marked}}active{{/if}}" data-condition="marked">
+          <span class="condition-label mazes-label">MARKED</span>
+          <div class="condition-text">Disadvantaged on DEATH'S DOOR</div>
+        </div>
+
+        <div class="condition-cell condition-wounded {{#if system.conditions.wounded}}active{{/if}}">
+          <span class="condition-label mazes-label">WOUNDED</span>
+          <textarea class="condition-textarea" name="system.conditions.wounded">{{system.conditions.wounded}}</textarea>
+        </div>
+
+        <div class="condition-cell {{#if system.conditions.down}}active{{/if}}" data-condition="down">
+          <span class="condition-label mazes-label">DOWN</span>
+          <div class="condition-text">No actions except DEATH'S DOOR, or receive AID</div>
+        </div>
+
+        <div class="condition-cell condition-custom {{#if system.conditions.custom1.text}}active{{/if}}">
+          <input class="condition-custom-label mazes-label" type="text" name="system.conditions.custom1.label" value="{{system.conditions.custom1.label}}" placeholder="CUSTOM" />
+          <textarea class="condition-textarea" name="system.conditions.custom1.text">{{system.conditions.custom1.text}}</textarea>
+        </div>
+
+        <div class="condition-cell condition-custom {{#if system.conditions.custom2.text}}active{{/if}}">
+          <input class="condition-custom-label mazes-label" type="text" name="system.conditions.custom2.label" value="{{system.conditions.custom2.label}}" placeholder="CUSTOM" />
+          <textarea class="condition-textarea" name="system.conditions.custom2.text">{{system.conditions.custom2.text}}</textarea>
+        </div>
+
+        <div class="condition-cell condition-custom {{#if system.conditions.custom3.text}}active{{/if}}">
+          <input class="condition-custom-label mazes-label" type="text" name="system.conditions.custom3.label" value="{{system.conditions.custom3.label}}" placeholder="CUSTOM" />
+          <textarea class="condition-textarea" name="system.conditions.custom3.text">{{system.conditions.custom3.text}}</textarea>
+        </div>
+
+      </div>
     </div>
 
     {{!-- NOTES TAB --}}

@@ -1,7 +1,9 @@
 import { MazesActor, actorDataModels } from "./actor.js";
 import { MazesCharacterSheet } from "./actor-sheet.js";
+import { MazesHazardSheet } from "./hazard-sheet.js";
 import { MazesItem, itemDataModels } from "./item.js";
 import { MazesRoleSheet, MazesAspectSheet, MazesClassSheet, MazesEdgeSheet } from "./item-sheet.js";
+import { registerGameSheetSettings, GameSheet } from "./game-sheet.js";
 
 Hooks.once("init", () => {
   console.log("Mazes | Initialising Mazes");
@@ -59,6 +61,17 @@ Hooks.once("init", () => {
     makeDefault: true,
     label: "Mazes Edge Sheet",
   });
+
+  registerGameSheetSettings();
+});
+
+Hooks.once("ready", () => {
+  const sheet = new GameSheet();
+  sheet.render(true);
+
+  Hooks.on("updateSetting", (setting) => {
+    if (setting.key?.startsWith("mazes.")) sheet.render(false);
+  });
 });
 
 Hooks.on("preCreateActor", (document, data) => {
@@ -70,3 +83,4 @@ Hooks.on("preCreateItem", (document, data) => {
   if (data.name && data.name !== "New Item") return;
   document.updateSource({ name: game.i18n.localize(`TYPES.Item.${document.type}`) });
 });
+

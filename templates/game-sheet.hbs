@@ -1,0 +1,63 @@
+<div class="mazes-game-sheet">
+
+  <div class="gs-section">
+    <div class="gs-label mazes-label">DARKNESS</div>
+    <div class="gs-counter">
+      {{#if isGM}}
+      <button type="button" class="gs-btn" data-setting="darkness" data-dir="down" data-min="1">−</button>
+      <input type="number" class="gs-input" data-setting="darkness" data-min="1" value="{{darkness}}" />
+      <button type="button" class="gs-btn" data-setting="darkness" data-dir="up">+</button>
+      {{else}}
+      <span class="gs-value">{{darkness}}</span>
+      {{/if}}
+    </div>
+    <div class="gs-label mazes-label">{{darknessLabel}}</div>
+    <div class="gs-comment">{{darknessComment}}</div>
+  </div>
+
+  <div class="gs-section">
+    <div class="gs-label mazes-label">TREASURE</div>
+    <div class="gs-row">
+      <span class="gs-sublabel mazes-label">PLAYERS</span>
+      {{#if isGM}}
+      <div class="gs-counter gs-counter-inline">
+        <button type="button" class="gs-btn" data-setting="playerCount" data-dir="down" data-min="1">−</button>
+        <input type="number" class="gs-input" data-setting="playerCount" data-min="1" value="{{playerCount}}" />
+        <button type="button" class="gs-btn" data-setting="playerCount" data-dir="up">+</button>
+      </div>
+      {{else}}
+      <span class="gs-value">{{playerCount}}</span>
+      {{/if}}
+    </div>
+    <div class="gs-row">
+      <span class="gs-sublabel mazes-label">TREASURE</span>
+      {{#if isGM}}
+      <div class="gs-counter gs-counter-inline">
+        <button type="button" class="gs-btn" data-setting="treasure" data-dir="down" data-min="0">−</button>
+        <input type="number" class="gs-input" data-setting="treasure" data-min="0" value="{{treasure}}" />
+        <button type="button" class="gs-btn" data-setting="treasure" data-dir="up">+</button>
+      </div>
+      {{else}}
+      <span class="gs-value">{{treasure}}</span>
+      {{/if}}
+    </div>
+    <div class="gs-label mazes-label">{{treasureLabel}}</div>
+    {{#if treasureComment}}
+    <div class="gs-comment">{{treasureComment}}</div>
+    {{/if}}
+  </div>
+
+  <div class="gs-section">
+    <div class="gs-label mazes-label">SUPPLY</div>
+    <div class="gs-counter">
+      {{#if isGM}}
+      <button type="button" class="gs-btn" data-setting="supply" data-dir="down" data-min="0">−</button>
+      <input type="number" class="gs-input" data-setting="supply" data-min="0" value="{{supply}}" />
+      <button type="button" class="gs-btn" data-setting="supply" data-dir="up">+</button>
+      {{else}}
+      <span class="gs-value">{{supply}}</span>
+      {{/if}}
+    </div>
+  </div>
+
+</div>
