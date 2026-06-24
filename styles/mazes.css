@@ -762,6 +762,12 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   background: var(--mazes-bg);
   color: var(--mazes-text);
   padding: 8px;
+  overflow: hidden;
+  height: auto;
+}
+
+#mazes-game-sheet .header-button.close {
+  display: none;
 }
 
 #mazes-game-sheet .window-header {
@@ -801,6 +807,7 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 .gs-sublabel {
   font-size: 13px;
   flex-shrink: 0;
+  width: 70px;
 }
 
 .gs-comment {

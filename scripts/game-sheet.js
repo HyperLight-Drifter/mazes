@@ -57,7 +57,9 @@ export class GameSheet extends Application {
       popOut:      true,
       resizable:   false,
       minimizable: true,
-      width:       200,
+      closable: false,
+      width:  210,
+      height: "auto",
       ...( pos.top !== null
         ? { top: pos.top,    left: pos.left }
         : { bottom: pos.bottom ?? 60, left: pos.left ?? 20 }
@@ -126,6 +128,10 @@ export class GameSheet extends Application {
     await game.settings.set("mazes", key, value);
     this.render(false);
   }
+
+  async close(options={}) {
+  return this;
+}
 
   setPosition(pos = {}) {
     const result = super.setPosition(pos);
