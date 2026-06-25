@@ -193,26 +193,65 @@ html.querySelectorAll(".action-btn").forEach(btn => {
     const die  = role?.system?.die ?? "d6";
     const max  = parseInt(die.slice(1));
 
-    // ── CHAOS ──
     if (action.type === "chaos") {
-      const roll = new Roll(`1${die}`);
-      await roll.evaluate();
-      const result     = roll.total;
-      const resolution = result % 2 === 0 ? "SUCCESS" : "FAILURE";
-      const content = `
-        <div class="mazes-roll-chat">
-          <p class="roll-action">CHAOS</p>
-          <p class="roll-mode">1${die}</p>
-          <p class="roll-dice">${result}</p>
-          <p class="roll-resolution">${resolution}</p>
-        </div>
-      `;
-      await ChatMessage.create({
-        speaker: ChatMessage.getSpeaker({ actor: this.actor }),
-        content,
-        rolls: [roll],
-        sound: CONFIG.sounds.dice,
-      });
+      new Dialog({
+        title: "CHAOS",
+        content: `<p style="font-family:'Ruslan Display',serif; font-size:18px; text-transform:uppercase; text-align:center; margin:8px 0;">Choose roll mode</p>`,
+        buttons: {
+          advantage:    { label: "Advantage",    callback: () => _doChaos("advantage") },
+          normal:       { label: "Normal",       callback: () => _doChaos("normal") },
+          disadvantage: { label: "Disadvantage", callback: () => _doChaos("disadvantage") },
+        },
+      }).render(true);
+
+      const _doChaos = async (mode) => {
+        const rollA = new Roll(`1${die}`);
+        await rollA.evaluate();
+        const a = rollA.total;
+
+        let rollB = null;
+        let b = null;
+        if (mode !== "normal") {
+          rollB = new Roll(`1${die}`);
+          await rollB.evaluate();
+          b = rollB.total;
+        }
+
+        let chosen, other;
+        if (mode === "normal") {
+          chosen = a; other = null;
+        } else if (mode === "advantage") {
+          if (a >= b) { chosen = a; other = b; }
+          else        { chosen = b; other = a; }
+        } else {
+          if (a <= b) { chosen = a; other = b; }
+          else        { chosen = b; other = a; }
+        }
+
+        const resolution = chosen % 2 === 0 ? "SUCCESS" : "FAILURE";
+        const modeLabel  = mode === "advantage" ? "ADVANTAGE" : mode === "disadvantage" ? "DISADVANTAGE" : "NORMAL";
+        const diceDisplay = other !== null
+          ? `${chosen} <span class="roll-dice-dim">${other}</span>`
+          : `${chosen}`;
+
+        const content = `
+          <div class="mazes-roll-chat">
+            <p class="roll-action">CHAOS</p>
+            <p class="roll-mode">1${die}, ${modeLabel}</p>
+            <p class="roll-dice">${diceDisplay}</p>
+            <p class="roll-resolution">${resolution}</p>
+          </div>
+        `;
+
+        const rolls = rollB ? [rollA, rollB] : [rollA];
+        await ChatMessage.create({
+          speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+          content,
+          rolls,
+          sound: CONFIG.sounds.dice,
+        });
+      };
+
       return;
     }
 
