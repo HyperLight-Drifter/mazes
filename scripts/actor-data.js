@@ -43,6 +43,14 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         }),
       }),
 
+      milestones: new foundry.data.fields.ArrayField(
+        new foundry.data.fields.SchemaField({
+          text:    new StringField({ initial: "" }),
+          checked: new BooleanField({ initial: false }),
+        }),
+        { initial: [] }
+      ),
+
       notes: new StringField({ initial: "" }),
     };
   }

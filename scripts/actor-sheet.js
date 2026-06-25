@@ -473,7 +473,45 @@ html.querySelectorAll(".action-btn").forEach(btn => {
         cell.classList.toggle("active", e.target.value.length > 0);
       });
     });
+
+     // Milestone add
+    html.querySelector(".milestone-add-btn")?.addEventListener("click", async () => {
+      const milestones = foundry.utils.deepClone(this.actor.system.milestones ?? []);
+      milestones.push({ text: "", checked: false });
+      await this.actor.update({ "system.milestones": milestones });
+    });
+
+    // Milestone check toggle
+    html.querySelectorAll(".milestone-check-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const idx        = parseInt(btn.dataset.index);
+        const milestones = foundry.utils.deepClone(this.actor.system.milestones ?? []);
+        milestones[idx].checked = !milestones[idx].checked;
+        await this.actor.update({ "system.milestones": milestones });
+      });
+    });
+
+    // Milestone delete
+    html.querySelectorAll(".milestone-delete-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const idx        = parseInt(btn.dataset.index);
+        const milestones = foundry.utils.deepClone(this.actor.system.milestones ?? []);
+        milestones.splice(idx, 1);
+        await this.actor.update({ "system.milestones": milestones });
+      });
+    });
+
+    // Milestone text change
+    html.querySelectorAll(".milestone-textarea").forEach(textarea => {
+      textarea.addEventListener("change", async (e) => {
+        const idx        = parseInt(textarea.dataset.index);
+        const milestones = foundry.utils.deepClone(this.actor.system.milestones ?? []);
+        milestones[idx].text = e.target.value;
+        await this.actor.update({ "system.milestones": milestones });
+      });
+    });
   }
+
 
   _applyTab(html, tab) {
     html.querySelectorAll(".tab-btn").forEach(b => b.classList.toggle("active", b.dataset.tab === tab));
@@ -486,3 +524,5 @@ html.querySelectorAll(".action-btn").forEach(btn => {
     this.setPosition({ left, top, width: this.position.width });
   }
 }
+
+

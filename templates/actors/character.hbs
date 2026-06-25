@@ -62,6 +62,7 @@
     <div class="mazes-tabs">
       <button type="button" class="tab-btn active" data-tab="sheet">Sheet</button>
       <button type="button" class="tab-btn" data-tab="conditions">Conditions</button>
+      <button type="button" class="tab-btn" data-tab="milestones">Milestones</button>
       <button type="button" class="tab-btn" data-tab="notes">Notes</button>
     </div>
 
@@ -268,6 +269,23 @@
           <textarea class="condition-textarea" name="system.conditions.custom3.text">{{system.conditions.custom3.text}}</textarea>
         </div>
 
+      </div>
+    </div>
+
+    {{!-- MILESTONES TAB --}}
+    <div class="tab-content" data-tab="milestones">
+      <div class="section-header">
+        <span class="mazes-label">MILESTONES</span>
+        <button type="button" class="milestone-add-btn section-add-btn">+</button>
+      </div>
+      <div class="milestone-list">
+        {{#each system.milestones as |milestone idx|}}
+        <div class="milestone-entry" data-index="{{idx}}">
+          <button type="button" class="milestone-check-btn {{#if milestone.checked}}checked{{/if}}" data-index="{{idx}}">✓</button>
+          <textarea class="milestone-textarea {{#if milestone.checked}}checked{{/if}}" name="system.milestones.{{idx}}.text" data-index="{{idx}}">{{milestone.text}}</textarea>
+          <button type="button" class="milestone-delete-btn" data-index="{{idx}}">×</button>
+        </div>
+        {{/each}}
       </div>
     </div>
 

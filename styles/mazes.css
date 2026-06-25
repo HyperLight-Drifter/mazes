@@ -490,6 +490,81 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   display: block;
 }
 
+/* ── MILESTONES ── */
+.milestone-list {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-top: 4px;
+}
+
+.milestone-entry {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 6px;
+}
+
+.milestone-check-btn {
+  flex-shrink: 0;
+  width: 18px;
+  height: 18px;
+  margin-top: 4px;
+  background: var(--mazes-bg-light);
+  border: 1px solid #555;
+  color: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  line-height: 18px;
+  text-align: center;
+  padding: 0;
+}
+
+.milestone-check-btn.checked {
+  background: var(--mazes-input-bg);
+  color: var(--mazes-input-text);
+}
+
+.milestone-textarea {
+  flex: 1;
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  font-family: ui-sans-serif, sans-serif;
+  padding: 4px 6px;
+  resize: none;
+  overflow: hidden;
+  field-sizing: content;
+  min-height: 26px;
+  line-height: 1.5;
+}
+
+.milestone-textarea.checked {
+  text-decoration: line-through;
+  opacity: 0.5;
+}
+
+.milestone-textarea:focus {
+  outline: none;
+}
+
+.milestone-delete-btn {
+  flex-shrink: 0;
+  background: none;
+  border: none;
+  color: var(--mazes-text);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  line-height: 26px;
+  margin-top: 0;
+}
+
+.milestone-delete-btn:hover {
+  color: var(--mazes-delete);
+}
+
 /* ── CONDITIONS / NOTES TABS ── */
 .full-textarea {
   width: 100%;
