@@ -23,5 +23,8 @@
     }
   },
   "packs": [],
-  "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }]
+  "languages": [{ "lang": "en", "name": "English", "path": "lang/en.json" }],
+  "url": "https://github.com/HyperLight-Drifter/mazes",
+  "manifest": "https://raw.githubusercontent.com/HyperLight-Drifter/mazes/main/system.json",
+  "download": "https://github.com/HyperLight-Drifter/mazes/archive/refs/heads/main.zip"
 }
