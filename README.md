@@ -2,6 +2,8 @@
 
 An unofficial system for running Mazes in Foundry VTT. This project is not affiliated with, endorsed by, or connected to the creators, 9th Level Games. Find out more about Mazes RPG at: https://9thlevel.com/pages/mazes-fantasy-roleplaying
 
+AI usage: Claude AI was involved in creation of the system. 
+
 ## Features
 
 ### Actors
