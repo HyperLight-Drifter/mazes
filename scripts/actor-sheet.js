@@ -425,59 +425,46 @@ html.querySelectorAll(".action-btn").forEach(btn => {
       const evA = _evaluate(a);
       const evB = b !== null ? _evaluate(b) : null;
 
-      const _tags = (...evals) => {
-        const tags = [];
-        if (evals.includes("key"))   tags.push("KEY");
-        if (evals.includes("crown")) tags.push("CROWN");
-        return tags;
-      };
+      const label = ev => ev === "success" ? "SUCCESS" : ev === "key" ? "KEY" : ev === "crown" ? "CROWN" : "FAILURE";
 
       let resolution;
-      let tags = [];
 
       if (mode === "normal") {
-        if      (evA === "success") { resolution = "SUCCESS"; tags = []; }
-        else if (evA === "key")     { resolution = "FAILURE"; tags = ["KEY"]; }
-        else if (evA === "crown")   { resolution = "FAILURE"; tags = ["CROWN"]; }
-        else                        { resolution = "FAILURE"; tags = []; }
+        if      (evA === "success") resolution = "SUCCESS";
+        else if (evA === "key")     resolution = "KEY";
+        else if (evA === "crown")   resolution = "CROWN";
+        else                        resolution = "FAILURE";
 
       } else if (mode === "advantage") {
-        const aSuccess = evA === "success";
-        const bSuccess = evB === "success";
-        if (aSuccess && bSuccess) {
-          resolution = "CRITICAL"; tags = [];
-        } else if (aSuccess || bSuccess) {
-          resolution = "SUCCESS";
-          tags = _tags(aSuccess ? evB : evA);
-        } else {
-          resolution = "FAILURE";
-          tags = _tags(evA, evB);
-        }
+      const aSuccess = evA === "success";
+      const bSuccess = evB === "success";
+      if (aSuccess && bSuccess)                            resolution = "CRITICAL";
+      else if (aSuccess || bSuccess) {
+        const other = aSuccess ? evB : evA;
+        resolution = (other === "key" || other === "crown") ? `SUCCESS · ${label(other)}` : "SUCCESS";
+      }
+      else                                                 resolution = `${label(evA)} · ${label(evB)}`;
 
       } else {
-        const aSuccess = evA === "success";
-        const bSuccess = evB === "success";
-        if (aSuccess && bSuccess) {
-          resolution = "SUCCESS"; tags = [];
-        } else if (!aSuccess && !bSuccess) {
-          resolution = "FUMBLE";
-          tags = _tags(evA, evB);
-        } else {
-          resolution = "FAILURE";
-          tags = _tags(aSuccess ? evB : evA);
-        }
+      const aSuccess = evA === "success";
+      const bSuccess = evB === "success";
+      if (aSuccess && bSuccess)        resolution = "SUCCESS";
+      else if (!aSuccess && !bSuccess) resolution = (evA === "failure" && evB === "failure") ? "FUMBLE" : `${label(evA)} · ${label(evB)}`;
+      else {
+        const other = aSuccess ? evB : evA;
+        resolution = (other === "key" || other === "crown") ? `FAILURE · ${label(other)}` : "FAILURE";
       }
+    }
 
       const modeLabel   = mode === "advantage" ? "ADVANTAGE" : mode === "disadvantage" ? "DISADVANTAGE" : "NORMAL";
       const diceDisplay = b !== null ? `${a} · ${b}` : `${a}`;
-      const tagLine     = tags.length ? ` + ${tags.join(" + ")}` : "";
 
       const content = `
         <div class="mazes-roll-chat">
           <p class="roll-action">${action.label}</p>
           <p class="roll-mode">1${die}, ${modeLabel}</p>
           <p class="roll-dice">${diceDisplay}</p>
-          <p class="roll-resolution">${resolution}${tagLine}</p>
+          <p class="roll-resolution">${resolution}</p>
         </div>
       `;
 
@@ -510,6 +497,347 @@ html.querySelectorAll(".action-btn").forEach(btn => {
     html.querySelectorAll(".condition-custom").forEach(cell => {
       cell.querySelector("textarea")?.addEventListener("input", (e) => {
         cell.classList.toggle("active", e.target.value.length > 0);
+      });
+    });
+
+    // Hexcrawl buttons
+    html.querySelectorAll(".hexcrawl-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const key  = btn.dataset.action;
+        const role = this.actor.items.find(i => i.type === "role");
+        const die  = role?.system?.die ?? "d6";
+        const max  = parseInt(die.slice(1));
+
+        // ── SUPPLY TEST ──
+        if (key === "supply-test") {
+          new Dialog({
+            title: "SUPPLY TEST",
+            content: `<p style="font-family:'Ruslan Display',serif; font-size:18px; text-transform:uppercase; text-align:center; margin:8px 0;">Choose roll mode</p>`,
+            buttons: {
+              advantage:    { label: "Advantage",    callback: () => _doSupply("advantage") },
+              normal:       { label: "Normal",       callback: () => _doSupply("normal") },
+              disadvantage: { label: "Disadvantage", callback: () => _doSupply("disadvantage") },
+            },
+          }).render(true);
+
+          const _doSupply = async (mode) => {
+            const rollA = new Roll(`1${die}`);
+            await rollA.evaluate();
+            const a = rollA.total;
+
+            let rollB = null;
+            let b = null;
+            if (mode !== "normal") {
+              rollB = new Roll(`1${die}`);
+              await rollB.evaluate();
+              b = rollB.total;
+            }
+
+            let chosen, other;
+            const isCrown = v => v === max;
+
+            if (mode === "normal") {
+              chosen = a; other = null;
+            } else if (mode === "advantage") {
+              // pick non-crown; if both crown or neither crown, doesn't matter
+              if (isCrown(a) && !isCrown(b)) { chosen = b; other = a; }
+              else { chosen = a; other = b ?? null; }
+            } else {
+              // disadvantage: pick crown; if neither crown, pick either
+              if (!isCrown(a) && isCrown(b)) { chosen = b; other = a; }
+              else { chosen = a; other = b ?? null; }
+            }
+
+            const crown = isCrown(chosen);
+            const resolution = crown
+              ? "A Supply was depleted. Clear HUNGRY."
+              : "You rationed your Supplies. Clear HUNGRY.";
+
+            const modeLabel   = mode === "advantage" ? "ADVANTAGE" : mode === "disadvantage" ? "DISADVANTAGE" : "NORMAL";
+            const diceDisplay = other !== null
+              ? `${chosen} <span class="roll-dice-dim">${other}</span>`
+              : `${chosen}`;
+
+            const content = `
+              <div class="mazes-roll-chat">
+                <p class="roll-action">SUPPLY TEST</p>
+                <p class="roll-mode">1${die}, ${modeLabel}</p>
+                <p class="roll-dice">${diceDisplay}</p>
+                <p class="roll-resolution">${resolution}</p>
+              </div>
+            `;
+
+            const rolls = rollB ? [rollA, rollB] : [rollA];
+            await ChatMessage.create({
+              speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+              content,
+              rolls,
+              sound: CONFIG.sounds.dice,
+            });
+          };
+
+          return;
+        }
+
+        // ── ACTION CHOICE ROLLS (Seek Adventure, March On, Scout, Hunt & Gather) ──
+        const ACTION_CHOICE_KEYS = ["seek-adventure", "march-on", "scout", "hunt-gather"];
+        if (ACTION_CHOICE_KEYS.includes(key)) {
+          const labelMap = {
+            "seek-adventure": "SEEK ADVENTURE",
+            "march-on":       "MARCH ON",
+            "scout":          "SCOUT",
+            "hunt-gather":    "HUNT & GATHER",
+          };
+          const hexLabel = labelMap[key];
+
+          let selectedAction = null;
+          let selectedMode   = null;
+
+          const dialogContent = `
+            <style>
+              .hx-dialog { display: flex; flex-direction: column; gap: 12px; padding: 4px 0; }
+              .hx-row { display: flex; gap: 6px; justify-content: center; }
+              .hx-btn {
+                font-family: 'Ruslan Display', serif;
+                font-size: 15px;
+                text-transform: uppercase;
+                letter-spacing: 0.04em;
+                padding: 6px 12px;
+                background: #252525;
+                border: 1px solid #444;
+                color: #fff;
+                cursor: pointer;
+                flex: 1;
+              }
+              .hx-btn.selected {
+                background: #ffffff;
+                color: #111;
+              }
+            </style>
+            <div class="hx-dialog">
+              <div class="hx-row" id="hx-actions">
+                <button type="button" class="hx-btn" data-action="books">BOOKS</button>
+                <button type="button" class="hx-btn" data-action="boots">BOOTS</button>
+                <button type="button" class="hx-btn" data-action="blades">BLADES</button>
+                <button type="button" class="hx-btn" data-action="bones">BONES</button>
+              </div>
+              <div class="hx-row" id="hx-modes">
+                <button type="button" class="hx-btn" data-mode="advantage">ADVANTAGE</button>
+                <button type="button" class="hx-btn" data-mode="normal">NORMAL</button>
+                <button type="button" class="hx-btn" data-mode="disadvantage">DISADVANTAGE</button>
+              </div>
+            </div>
+          `;
+
+          const d = new Dialog({
+            title: hexLabel,
+            content: dialogContent,
+            buttons: {
+              roll: {
+                label: "Roll",
+                callback: (html) => {
+                  if (!selectedAction || !selectedMode) {
+                    ui.notifications.warn("Choose an action and a mode.");
+                    return false;
+                  }
+                  _doHexRoll(selectedAction, selectedMode);
+                },
+              },
+              cancel: { label: "Cancel" },
+            },
+            render: (html) => {
+              html.find("#hx-actions .hx-btn").on("click", (e) => {
+                html.find("#hx-actions .hx-btn").removeClass("selected");
+                e.currentTarget.classList.add("selected");
+                selectedAction = e.currentTarget.dataset.action;
+              });
+              html.find("#hx-modes .hx-btn").on("click", (e) => {
+                html.find("#hx-modes .hx-btn").removeClass("selected");
+                e.currentTarget.classList.add("selected");
+                selectedMode = e.currentTarget.dataset.mode;
+              });
+            },
+          });
+          d.render(true);
+
+          const _doHexRoll = async (actionKey, mode) => {
+            const actionDefs = {
+              books:  { label: "BOOKS",  thresholds: [2, 3] },
+              boots:  { label: "BOOTS",  thresholds: [3, 4, 5] },
+              blades: { label: "BLADES", thresholds: [4, 5, 6, 7] },
+              bones:  { label: "BONES",  thresholds: [5, 6, 7, 8, 9] },
+            };
+            const action = actionDefs[actionKey];
+
+            const _evaluate = (result) => {
+              if (action.thresholds.includes(result)) return "success";
+              if (result === 1)   return "key";
+              if (result === max) return "crown";
+              return "failure";
+            };
+
+            const _tags = (...evals) => {
+              const tags = [];
+              if (evals.includes("key"))   tags.push("KEY");
+              if (evals.includes("crown")) tags.push("CROWN");
+              return tags;
+            };
+
+            const rollA = new Roll(`1${die}`);
+            await rollA.evaluate();
+            const a = rollA.total;
+
+            let rollB = null;
+            let b = null;
+            if (mode !== "normal") {
+              rollB = new Roll(`1${die}`);
+              await rollB.evaluate();
+              b = rollB.total;
+            }
+
+            const evA = _evaluate(a);
+            const evB = b !== null ? _evaluate(b) : null;
+
+            let resolution;
+            let tags = [];
+
+            if (mode === "normal") {
+              if      (evA === "success") { resolution = "SUCCESS"; }
+              else if (evA === "key")     { resolution = "KEY"; tags = []; }
+              else if (evA === "crown")   { resolution = "CROWN"; tags = []; }
+              else                        { resolution = "FAILURE"; }
+
+            } else if (mode === "advantage") {
+              const aSuccess = evA === "success";
+              const bSuccess = evB === "success";
+              if (aSuccess && bSuccess)       { resolution = "CRITICAL"; }
+              else if (aSuccess || bSuccess)  { resolution = "SUCCESS"; tags = _tags(aSuccess ? evB : evA); }
+              else                            { resolution = "FAILURE";  tags = _tags(evA, evB); }
+
+            } else {
+              const aSuccess = evA === "success";
+              const bSuccess = evB === "success";
+              if (aSuccess && bSuccess)        { resolution = "SUCCESS"; }
+              else if (!aSuccess && !bSuccess) { resolution = "FUMBLE";  tags = _tags(evA, evB); }
+              else                             { resolution = "FAILURE";  tags = _tags(aSuccess ? evB : evA); }
+            }
+
+            const modeLabel   = mode === "advantage" ? "ADVANTAGE" : mode === "disadvantage" ? "DISADVANTAGE" : "NORMAL";
+            const diceDisplay = b !== null ? `${a} · ${b}` : `${a}`;
+            const tagLine     = tags.length ? ` + ${tags.join(" + ")}` : "";
+
+            const content = `
+              <div class="mazes-roll-chat">
+                <p class="roll-action">${hexLabel} — ${action.label}</p>
+                <p class="roll-mode">1${die}, ${modeLabel}</p>
+                <p class="roll-dice">${diceDisplay}</p>
+                <p class="roll-resolution">${resolution}${tagLine}</p>
+              </div>
+            `;
+
+            const rolls = rollB ? [rollA, rollB] : [rollA];
+            await ChatMessage.create({
+              speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+              content,
+              rolls,
+              sound: CONFIG.sounds.dice,
+            });
+          };
+
+          return;
+        }
+
+        // ── STAND WATCH (Bones roll) ──
+        if (key === "stand-watch") {
+          const bonesAction = ACTIONS.find(a => a.key === "bones");
+          new Dialog({
+            title: "STAND WATCH",
+            content: `<p style="font-family:'Ruslan Display',serif; font-size:18px; text-transform:uppercase; text-align:center; margin:8px 0;">Choose roll mode</p>`,
+            buttons: {
+              advantage:    { label: "Advantage",    callback: () => _doStandWatch("advantage") },
+              normal:       { label: "Normal",       callback: () => _doStandWatch("normal") },
+              disadvantage: { label: "Disadvantage", callback: () => _doStandWatch("disadvantage") },
+            },
+          }).render(true);
+
+          const _doStandWatch = async (mode) => {
+            const _evaluate = (result) => {
+              if (bonesAction.thresholds.includes(result)) return "success";
+              if (result === 1)   return "key";
+              if (result === max) return "crown";
+              return "failure";
+            };
+
+            const _tags = (...evals) => {
+              const tags = [];
+              if (evals.includes("key"))   tags.push("KEY");
+              if (evals.includes("crown")) tags.push("CROWN");
+              return tags;
+            };
+
+            const rollA = new Roll(`1${die}`);
+            await rollA.evaluate();
+            const a = rollA.total;
+
+            let rollB = null;
+            let b = null;
+            if (mode !== "normal") {
+              rollB = new Roll(`1${die}`);
+              await rollB.evaluate();
+              b = rollB.total;
+            }
+
+            const evA = _evaluate(a);
+            const evB = b !== null ? _evaluate(b) : null;
+
+            let resolution;
+            let tags = [];
+
+            if (mode === "normal") {
+              if      (evA === "success") { resolution = "SUCCESS"; }
+              else if (evA === "key")     { resolution = "KEY"; tags = []; }
+              else if (evA === "crown")   { resolution = "CROWN"; tags = []; }
+              else                        { resolution = "FAILURE"; }
+
+            } else if (mode === "advantage") {
+              const aSuccess = evA === "success";
+              const bSuccess = evB === "success";
+              if (aSuccess && bSuccess)       { resolution = "CRITICAL"; }
+              else if (aSuccess || bSuccess)  { resolution = "SUCCESS"; tags = _tags(aSuccess ? evB : evA); }
+              else                            { resolution = "FAILURE";  tags = _tags(evA, evB); }
+
+            } else {
+              const aSuccess = evA === "success";
+              const bSuccess = evB === "success";
+              if (aSuccess && bSuccess)        { resolution = "SUCCESS"; }
+              else if (!aSuccess && !bSuccess) { resolution = "FUMBLE";  tags = _tags(evA, evB); }
+              else                             { resolution = "FAILURE";  tags = _tags(aSuccess ? evB : evA); }
+            }
+
+            const modeLabel   = mode === "advantage" ? "ADVANTAGE" : mode === "disadvantage" ? "DISADVANTAGE" : "NORMAL";
+            const diceDisplay = b !== null ? `${a} · ${b}` : `${a}`;
+            const tagLine     = tags.length ? ` + ${tags.join(" + ")}` : "";
+
+            const content = `
+              <div class="mazes-roll-chat">
+                <p class="roll-action">STAND WATCH — BONES</p>
+                <p class="roll-mode">1${die}, ${modeLabel}</p>
+                <p class="roll-dice">${diceDisplay}</p>
+                <p class="roll-resolution">${resolution}${tagLine}</p>
+              </div>
+            `;
+
+            const rolls = rollB ? [rollA, rollB] : [rollA];
+            await ChatMessage.create({
+              speaker: ChatMessage.getSpeaker({ actor: this.actor }),
+              content,
+              rolls,
+              sound: CONFIG.sounds.dice,
+            });
+          };
+
+          return;
+        }
       });
     });
 

@@ -62,6 +62,7 @@
     <div class="mazes-tabs">
       <button type="button" class="tab-btn active" data-tab="sheet">Sheet</button>
       <button type="button" class="tab-btn" data-tab="conditions">Conditions</button>
+      <button type="button" class="tab-btn" data-tab="hexcrawl">Hexcrawl</button>
       <button type="button" class="tab-btn" data-tab="milestones">Milestones</button>
       <button type="button" class="tab-btn" data-tab="notes">Notes</button>
     </div>
@@ -267,6 +268,68 @@
         <div class="condition-cell condition-custom {{#if system.conditions.custom3.text}}active{{/if}}">
           <input class="condition-custom-label mazes-label" type="text" name="system.conditions.custom3.label" value="{{system.conditions.custom3.label}}" placeholder="CUSTOM" />
           <textarea class="condition-textarea" name="system.conditions.custom3.text">{{system.conditions.custom3.text}}</textarea>
+        </div>
+
+      </div>
+    </div>
+     
+     {{!-- HEXCRAWL TAB --}}
+    <div class="tab-content" data-tab="hexcrawl">
+      <div class="hexcrawl-list">
+
+        <div class="hexcrawl-row">
+          <button type="button" class="hexcrawl-btn action-btn" data-action="supply-test">
+            <span class="action-btn-label">SUPPLY TEST</span>
+          </button>          
+        </div>
+
+        <div class="hexcrawl-row">
+          <button type="button" class="hexcrawl-btn action-btn" data-action="seek-adventure">
+            <span class="action-btn-label">SEEK ADVENTURE</span>
+          </button>
+          <div class="hexcrawl-desc">Group action to search for and travel to a Point of Interest. Optional: Add 1 Darkness. Roll any Action.</div>
+        </div>
+
+        <div class="hexcrawl-row">
+          <button type="button" class="hexcrawl-btn action-btn" data-action="march-on">
+            <span class="action-btn-label">MARCH ON</span>
+          </button>
+          <div class="hexcrawl-desc">Group action to move to a new hex. Get Hungry. Choose Pathbreaker, who loses 1 Heart and rolls any Action.</div>
+        </div>
+
+        <div class="hexcrawl-row">
+          <button type="button" class="hexcrawl-btn action-btn" data-action="scout">
+            <span class="action-btn-label">SCOUT</span>
+          </button>
+          <div class="hexcrawl-desc">Individual action to find Points of Interest. Get Hungry and roll any Action. Always succeed, but failure makes you Tired.</div>
+        </div>
+
+        <div class="hexcrawl-row">
+          <button type="button" class="hexcrawl-btn action-btn" data-action="hunt-gather">
+            <span class="action-btn-label">HUNT & GATHER</span>
+          </button>
+          <div class="hexcrawl-desc">Individual action. Lose Heart and roll any Action. On success, remove Hungry from one person or let the whole group pass the next Supply test (without clearing Hungry). On failure, get Hungry.</div>
+        </div>
+
+        <div class="hexcrawl-row">
+          <div class="hexcrawl-label">
+            <span class="action-btn-label">MAKE CAMP</span>
+          </div>
+          <div class="hexcrawl-desc">Individual action. Set up a camp. No roll. You can skip this, but get penalties for Stand Watch and Sleep.</div>
+        </div>
+
+        <div class="hexcrawl-row">
+          <button type="button" class="hexcrawl-btn action-btn" data-action="stand-watch">
+            <span class="action-btn-label">STAND WATCH</span>
+          </button>
+          <div class="hexcrawl-desc">Individual action to guard your camp. Roll BONES (Dis. if no Camp). On success, you can't be surprised and prevent Darkness increase. On failure or if no one guards, add 1 Darkness and you can be ambushed.</div>
+        </div>
+
+        <div class="hexcrawl-row">
+          <div class="hexcrawl-label">
+            <span class="action-btn-label">SLEEP</span>
+          </div>
+          <div class="hexcrawl-desc">Individual action. Clear Stressed or Tired. Clear both if you have a camp. Get Adv. on Supply test if you have a camp.</div>
         </div>
 
       </div>

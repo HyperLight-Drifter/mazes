@@ -59,7 +59,7 @@
 .tab-btn {
   writing-mode: horizontal-tb;
   transform: none;
-  padding: 4px 14px 0;
+  padding: 4px 10px 0;
   cursor: pointer;
   font-family: 'Ruslan Display', serif;
   font-size: 16px;
@@ -583,6 +583,54 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 
 .full-textarea:focus {
   outline: none;
+}
+
+/* ── HEXCRAWL TAB ── */
+.hexcrawl-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.hexcrawl-row {
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+  gap: 8px;
+}
+
+.hexcrawl-btn {
+  width: 190px;
+  flex-shrink: 0;
+  height: auto;
+  min-height: 36px;
+  padding: 0 10px;
+  white-space: normal;
+  text-align: left;
+}
+
+.hexcrawl-label {
+  width: 190px;
+  flex-shrink: 0;
+  min-height: 36px;
+  padding: 6px 10px;
+  background: var(--mazes-bg-section);
+  display: flex;
+  align-items: center;
+}
+
+.hexcrawl-desc {
+  width: 342px;
+  flex-shrink: 0;
+  background: var(--mazes-input-bg);
+  color: var(--mazes-input-text);
+  font-size: 13px;
+  font-family: ui-sans-serif, sans-serif;
+  padding: 6px 8px;
+  line-height: 1.4;
+  display: flex;
+  align-items: center;
 }
 
 /* ── ITEM SHEETS (dark theme) ── */
