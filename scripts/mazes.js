@@ -2,7 +2,7 @@ import { MazesActor, actorDataModels } from "./actor.js";
 import { MazesCharacterSheet } from "./actor-sheet.js";
 import { MazesHazardSheet } from "./hazard-sheet.js";
 import { MazesItem, itemDataModels } from "./item.js";
-import { MazesRoleSheet, MazesAspectSheet, MazesClassSheet, MazesEdgeSheet } from "./item-sheet.js";
+import { MazesRoleSheet, MazesAspectSheet, MazesClassSheet, MazesEdgeSheet, MazesCampaignActionSheet } from "./item-sheet.js";
 import { registerGameSheetSettings, GameSheet } from "./game-sheet.js";
 
 Hooks.once("init", () => {
@@ -60,6 +60,11 @@ Hooks.once("init", () => {
     types: ["edge"],
     makeDefault: true,
     label: "Mazes Edge Sheet",
+  });
+  foundry.documents.collections.Items.registerSheet("mazes", MazesCampaignActionSheet, {
+    types: ["campaignAction"],
+    makeDefault: true,
+    label: "Mazes Campaign Action Sheet",
   });
 
   registerGameSheetSettings();

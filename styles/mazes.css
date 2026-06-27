@@ -585,52 +585,164 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   outline: none;
 }
 
-/* ── HEXCRAWL TAB ── */
-.hexcrawl-list {
+/* ── CAMPAIGN TAB ── */
+.campaign-company {
   display: flex;
   flex-direction: column;
   gap: 6px;
-  margin-top: 8px;
+  margin-bottom: 12px;
+  padding-left: 8px;
+  padding-top: 10px;
 }
 
-.hexcrawl-row {
+.campaign-field {
   display: flex;
   flex-direction: row;
-  align-items: stretch;
+  align-items: flex-start;
   gap: 8px;
 }
 
-.hexcrawl-btn {
-  width: 190px;
+.campaign-field .mazes-label {
+  font-size: 18px;
   flex-shrink: 0;
-  height: auto;
-  min-height: 36px;
-  padding: 0 10px;
-  white-space: normal;
-  text-align: left;
+  width: 160px;
+  line-height: 26px;
 }
 
-.hexcrawl-label {
-  width: 190px;
-  flex-shrink: 0;
-  min-height: 36px;
-  padding: 6px 10px;
-  background: var(--mazes-bg-section);
-  display: flex;
-  align-items: center;
-}
-
-.hexcrawl-desc {
-  width: 342px;
-  flex-shrink: 0;
+.campaign-field .mazes-input,
+.campaign-drive-textarea {
+  flex: 1;
+  box-sizing: border-box;
   background: var(--mazes-input-bg);
+  border: none;
   color: var(--mazes-input-text);
-  font-size: 13px;
+  font-size: 14px;
+}
+
+.campaign-drive-textarea {
   font-family: ui-sans-serif, sans-serif;
-  padding: 6px 8px;
-  line-height: 1.4;
+  padding: 0 4px;
+  resize: none;
+  overflow: hidden;
+  field-sizing: content;
+  min-height: 26px;
+  line-height: 1.5;
+}
+
+.campaign-drive-textarea:focus {
+  outline: none;
+}
+
+.campaign-die-controls {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 6px;
+}
+
+.campaign-die-controls select {
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  font-size: 14px;
+  height: 26px;
+  padding: 0 4px;
+}
+
+.campaign-die-controls .drive-roll-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-text);
+  cursor: pointer;
+  padding: 0 2px;
+  line-height: 1;
+  outline: none;
   display: flex;
   align-items: center;
+  box-shadow: none;
+}
+
+.campaign-die-controls .drive-roll-btn:hover {
+  opacity: 0.7;
+}
+
+.campaign-die-controls select:focus,
+.campaign-drive-textarea:focus {
+  outline: none;
+}
+
+.campaign-columns {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+}
+
+.campaign-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.campaign-col .drop-zone {
+  min-height: 60px;
+}
+
+.item-header .supply-test-btn,
+.item-header .campaign-action-roll-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-input-text);
+  cursor: pointer;
+  padding: 0 2px;
+  flex-shrink: 0;
+  line-height: 1;
+  outline: none;
+  display: flex;
+  align-items: center;
+  box-shadow: none;
+}
+
+.item-header .supply-test-btn:hover,
+.item-header .campaign-action-roll-btn:hover {
+  opacity: 0.7;
+}
+
+.campaign-action-edit-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-input-text);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  outline: none;
+}
+
+.campaign-action-edit-btn:hover {
+  opacity: 0.7;
+}
+
+.item-header .campaign-action-delete-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-input-text);
+  cursor: pointer;
+  font-size: 14px;
+  padding: 0 2px;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.item-header .campaign-action-delete-btn:hover {
+  color: var(--mazes-delete);
+}
+
+.campaign-col .drop-zone {
+  overflow: visible;
+}
+
+.campaign-col .item-entry.unfolded {
+  overflow: visible;
 }
 
 /* ── ITEM SHEETS (dark theme) ── */

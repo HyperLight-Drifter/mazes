@@ -62,7 +62,7 @@
     <div class="mazes-tabs">
       <button type="button" class="tab-btn active" data-tab="sheet">Sheet</button>
       <button type="button" class="tab-btn" data-tab="conditions">Conditions</button>
-      <button type="button" class="tab-btn" data-tab="hexcrawl">Hexcrawl</button>
+      <button type="button" class="tab-btn" data-tab="campaign">Campaign</button>
       <button type="button" class="tab-btn" data-tab="milestones">Milestones</button>
       <button type="button" class="tab-btn" data-tab="notes">Notes</button>
     </div>
@@ -273,67 +273,127 @@
       </div>
     </div>
      
-     {{!-- HEXCRAWL TAB --}}
-    <div class="tab-content" data-tab="hexcrawl">
-      <div class="hexcrawl-list">
+     {{!-- CAMPAIGN TAB --}}
+      <div class="tab-content" data-tab="campaign">
 
-        <div class="hexcrawl-row">
-          <button type="button" class="hexcrawl-btn action-btn" data-action="supply-test">
-            <span class="action-btn-label">SUPPLY TEST</span>
-          </button>          
-        </div>
-
-        <div class="hexcrawl-row">
-          <button type="button" class="hexcrawl-btn action-btn" data-action="seek-adventure">
-            <span class="action-btn-label">SEEK ADVENTURE</span>
-          </button>
-          <div class="hexcrawl-desc">Group action to search for and travel to a Point of Interest. Optional: Add 1 Darkness. Roll any Action.</div>
-        </div>
-
-        <div class="hexcrawl-row">
-          <button type="button" class="hexcrawl-btn action-btn" data-action="march-on">
-            <span class="action-btn-label">MARCH ON</span>
-          </button>
-          <div class="hexcrawl-desc">Group action to move to a new hex. Get Hungry. Choose Pathbreaker, who loses 1 Heart and rolls any Action.</div>
-        </div>
-
-        <div class="hexcrawl-row">
-          <button type="button" class="hexcrawl-btn action-btn" data-action="scout">
-            <span class="action-btn-label">SCOUT</span>
-          </button>
-          <div class="hexcrawl-desc">Individual action to find Points of Interest. Get Hungry and roll any Action. Always succeed, but failure makes you Tired.</div>
-        </div>
-
-        <div class="hexcrawl-row">
-          <button type="button" class="hexcrawl-btn action-btn" data-action="hunt-gather">
-            <span class="action-btn-label">HUNT & GATHER</span>
-          </button>
-          <div class="hexcrawl-desc">Individual action. Lose Heart and roll any Action. On success, remove Hungry from one person or let the whole group pass the next Supply test (without clearing Hungry). On failure, get Hungry.</div>
-        </div>
-
-        <div class="hexcrawl-row">
-          <div class="hexcrawl-label">
-            <span class="action-btn-label">MAKE CAMP</span>
+        {{!-- Company info --}}        
+        <div class="campaign-company">
+          <div class="campaign-field">
+            <span class="mazes-label">COMPANY NAME</span>
+            <input type="text" class="mazes-input" name="system.companyName" value="{{system.companyName}}" />
           </div>
-          <div class="hexcrawl-desc">Individual action. Set up a camp. No roll. You can skip this, but get penalties for Stand Watch and Sleep.</div>
-        </div>
-
-        <div class="hexcrawl-row">
-          <button type="button" class="hexcrawl-btn action-btn" data-action="stand-watch">
-            <span class="action-btn-label">STAND WATCH</span>
-          </button>
-          <div class="hexcrawl-desc">Individual action to guard your camp. Roll BONES (Dis. if no Camp). On success, you can't be surprised and prevent Darkness increase. On failure or if no one guards, add 1 Darkness and you can be ambushed.</div>
-        </div>
-
-        <div class="hexcrawl-row">
-          <div class="hexcrawl-label">
-            <span class="action-btn-label">SLEEP</span>
+          <div class="campaign-field campaign-drive-field">
+            <span class="mazes-label">COMPANY DRIVE</span>
+            <textarea class="campaign-drive-textarea" name="system.companyDrive">{{system.companyDrive}}</textarea>
           </div>
-          <div class="hexcrawl-desc">Individual action. Clear Stressed or Tired. Clear both if you have a camp. Get Adv. on Supply test if you have a camp.</div>
+          <div class="campaign-field campaign-die-row">
+            <span class="mazes-label">COMPANY DIE</span>
+            <div class="campaign-die-controls">
+              <select name="system.companyDie" class="mazes-input">
+                {{#each companyDieOptions}}
+                <option value="{{value}}" {{#if selected}}selected{{/if}}>1{{value}}</option>
+                {{/each}}
+              </select>
+              <button type="button" class="drive-roll-btn campaign-roll-icon">
+                <svg viewBox="0 0 18 18" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                  <circle cx="6"  cy="6"  r="1.2" fill="currentColor"/>
+                  <circle cx="12" cy="6"  r="1.2" fill="currentColor"/>
+                  <circle cx="6"  cy="12" r="1.2" fill="currentColor"/>
+                  <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+                </svg>
+              </button>
+            </div>
+          </div>
         </div>
 
-      </div>
-    </div>
+        {{!-- Two columns --}}
+        <div class="campaign-columns">
+
+          {{!-- HEXCRAWL column --}}
+          <div class="campaign-col">
+            <div class="section-header">
+              <span class="mazes-label">HEXCRAWL</span>
+            </div>            
+
+            {{!-- Dropped hexcrawl actions --}}
+            <div class="campaign-drop-zone drop-zone" data-slot="hexcrawl" data-type="campaignAction">
+              {{!-- Supply Test hardcoded --}}
+              <div class="item-entry campaign-action-entry">
+                <div class="item-header">
+                  <button type="button" class="fold-btn">▶</button>
+                  <span class="item-name">Supply Test</span>
+                  <button type="button" class="supply-test-btn">
+                    <svg viewBox="0 0 18 18" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                      <circle cx="6"  cy="6"  r="1.2" fill="currentColor"/>
+                      <circle cx="12" cy="6"  r="1.2" fill="currentColor"/>
+                      <circle cx="6"  cy="12" r="1.2" fill="currentColor"/>
+                      <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
+                <div class="item-body">Roll your Role die. Crown depletes a Supply. Clear HUNGRY on any result.</div>
+              </div>
+              {{#each hexcrawlActions as |action|}}
+              <div class="item-entry campaign-action-entry" data-item-id="{{action.id}}">
+                <div class="item-header">
+                  <button type="button" class="fold-btn">▶</button>
+                  <span class="item-name">{{action.name}}</span>
+                  <button type="button" class="campaign-action-roll-btn" data-item-id="{{action.id}}">
+                    <svg viewBox="0 0 18 18" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                      <circle cx="6"  cy="6"  r="1.2" fill="currentColor"/>
+                      <circle cx="12" cy="6"  r="1.2" fill="currentColor"/>
+                      <circle cx="6"  cy="12" r="1.2" fill="currentColor"/>
+                      <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="campaign-action-edit-btn" data-item-id="{{action.id}}">✎</button>
+                  <button type="button" class="campaign-action-delete-btn" data-item-id="{{action.id}}">×</button>                  
+                </div>
+                <div class="item-body">{{action.system.description}}</div>
+              </div>
+              {{else}}
+              <span class="drop-hint">Drop campaign actions here</span>
+              {{/each}}
+            </div>
+          </div>
+
+          {{!-- DOWNTIME column --}}
+          <div class="campaign-col">
+            <div class="section-header">
+              <span class="mazes-label">DOWNTIME</span>
+            </div>
+            <div class="campaign-drop-zone drop-zone" data-slot="downtime">
+              {{#each downtimeActions as |action|}}
+              <div class="item-entry campaign-action-entry" data-item-id="{{action.id}}">
+                <div class="item-header">
+                  <button type="button" class="fold-btn">▶</button>
+                  <span class="item-name">{{action.name}}</span>
+                  <button type="button" class="campaign-action-roll-btn" data-item-id="{{action.id}}">
+                    <svg viewBox="0 0 18 18" width="16" height="16" xmlns="http://www.w3.org/2000/svg">
+                      <rect x="2" y="2" width="14" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                      <circle cx="6"  cy="6"  r="1.2" fill="currentColor"/>
+                      <circle cx="12" cy="6"  r="1.2" fill="currentColor"/>
+                      <circle cx="6"  cy="12" r="1.2" fill="currentColor"/>
+                      <circle cx="12" cy="12" r="1.2" fill="currentColor"/>
+                    </svg>
+                  </button>
+                  <button type="button" class="campaign-action-edit-btn" data-item-id="{{action.id}}">✎</button>
+                  <button type="button" class="campaign-action-delete-btn" data-item-id="{{action.id}}">×</button>                  
+                </div>
+                <div class="item-body">{{action.system.description}}</div>
+              </div>
+              {{else}}
+              <span class="drop-hint">Drop campaign actions here</span>
+              {{/each}}
+            </div>
+          </div>
+
+        </div>{{!-- end campaign-columns --}}
+
+      </div>{{!-- end campaign tab --}}
 
     {{!-- MILESTONES TAB --}}
     <div class="tab-content" data-tab="milestones">

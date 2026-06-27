@@ -43,6 +43,10 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         }),
       }),
 
+      companyName:  new StringField({ initial: "" }),
+      companyDrive: new StringField({ initial: "" }),
+      companyDie:   new StringField({ initial: "d6", choices: ["d4", "d6", "d8", "d10"] }),
+
       milestones: new foundry.data.fields.ArrayField(
         new foundry.data.fields.SchemaField({
           text:    new StringField({ initial: "" }),

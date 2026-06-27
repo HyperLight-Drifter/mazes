@@ -8,7 +8,8 @@
       "role": "Role",
       "aspect": "Aspect",
       "class": "Class",
-      "edge": "Edge"
+      "edge": "Edge",
+      "campaignAction": "Campaign Action"
     }
   }
 }

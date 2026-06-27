@@ -36,9 +36,20 @@ export class EdgeData extends foundry.abstract.TypeDataModel {
   }
 }
 
+export class CampaignActionData extends foundry.abstract.TypeDataModel {
+  static defineSchema() {
+    const { StringField } = foundry.data.fields;
+    return {
+      description: new StringField({ initial: "" }),
+      slot:        new StringField({ initial: "hexcrawl", choices: ["hexcrawl", "downtime"] }),
+    };
+  }
+}
+
 export const itemDataModels = {
   role:   RoleData,
   aspect: AspectData,
   class:  ClassData,
   edge:   EdgeData,
+  campaignAction: CampaignActionData,
 };

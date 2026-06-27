@@ -56,3 +56,7 @@ export class MazesClassSheet extends MazesItemSheetBase {
 export class MazesEdgeSheet extends MazesItemSheetBase {
   static PARTS = { sheet: { template: "systems/mazes/templates/items/edge.hbs" } };
 }
+
+export class MazesCampaignActionSheet extends MazesItemSheetBase {
+  static PARTS = { sheet: { template: "systems/mazes/templates/items/campaign-action.hbs" } };
+}
