@@ -19,6 +19,8 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
       wealth:    new NumberField({ required: true, initial: 0, min: 0, integer: true }),
       lifestyle: new StringField({ initial: "" }),
 
+      classLevel: new NumberField({ required: true, initial: 3, min: 0, integer: true }),
+
       conditions: new SchemaField({
         stressed: new BooleanField({ initial: false }),
         tired:    new BooleanField({ initial: false }),

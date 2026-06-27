@@ -1,5 +1,10 @@
 <div class="mazes-game-sheet">
 
+  <div class="gs-tabs">
+    <button type="button" class="gs-tab-btn {{#if isCore}}active{{/if}}" data-tab="core">CORE</button>
+    <button type="button" class="gs-tab-btn {{#if isBeyond}}active{{/if}}" data-tab="beyond">BEYOND</button>
+  </div>
+
   <div class="gs-section">
     <div class="gs-label mazes-label">DARKNESS</div>
     <div class="gs-counter">
@@ -15,6 +20,7 @@
     <div class="gs-comment">{{darknessComment}}</div>
   </div>
 
+  {{#if isCore}}
   <div class="gs-section">
     <div class="gs-label mazes-label">TREASURE</div>
     <div class="gs-row">
@@ -46,6 +52,7 @@
     <div class="gs-comment">{{treasureComment}}</div>
     {{/if}}
   </div>
+  {{/if}}
 
   <div class="gs-section">
     <div class="gs-label mazes-label">SUPPLY</div>
@@ -59,5 +66,20 @@
       {{/if}}
     </div>
   </div>
+
+  {{#if isBeyond}}
+  <div class="gs-section">
+    <div class="gs-label mazes-label">ARTIFACTS</div>
+    <div class="gs-counter">
+      {{#if isGM}}
+      <button type="button" class="gs-btn" data-setting="artifacts" data-dir="down" data-min="0">−</button>
+      <input type="number" class="gs-input" data-setting="artifacts" data-min="0" value="{{artifacts}}" />
+      <button type="button" class="gs-btn" data-setting="artifacts" data-dir="up">+</button>
+      {{else}}
+      <span class="gs-value">{{artifacts}}</span>
+      {{/if}}
+    </div>
+  </div>
+  {{/if}}
 
 </div>

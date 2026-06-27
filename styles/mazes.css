@@ -308,6 +308,46 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   opacity: 0.7;
 }
 
+/* ── CLASS ROW ── */
+.class-level-row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  padding: 2px 4px;
+  margin-bottom: 2px;
+}
+
+.class-level-label {
+  font-family: 'Ruslan Display', serif;
+  font-size: 14px;
+  color: var(--mazes-label);
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.class-level-input {
+  font-family: 'Ruslan Display', serif;
+  font-size: 14px;
+  width: 32px;
+  text-align: center;
+  background: var(--mazes-input-bg);
+  border: none;
+  color: var(--mazes-input-text);
+  padding: 0 2px;
+  height: 22px;
+  -moz-appearance: textfield;
+}
+
+.class-level-input::-webkit-outer-spin-button,
+.class-level-input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+
+.class-level-input:focus {
+  outline: none;
+}
+
 /* ── DROP ZONE ── */
 .drop-zone {
   min-height: 30px;
@@ -1016,6 +1056,38 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   color: var(--mazes-text);
   text-transform: uppercase;
   letter-spacing: 0.05em;
+}
+
+.gs-tabs {
+  display: flex;
+  flex-direction: row;
+  border-bottom: 1px solid #444;
+  margin-bottom: 0;
+}
+
+.gs-tab-btn {
+  flex: 1;
+  background: var(--mazes-bg);
+  border: none;
+  color: var(--mazes-text);
+  font-family: 'Ruslan Display', serif;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 4px 8px;
+  cursor: pointer;
+}
+
+.gs-tab-btn.active {
+  background: var(--mazes-text);
+  color: var(--mazes-bg);
+}
+
+#mazes-game-sheet .gs-tab-btn:focus,
+#mazes-game-sheet .gs-tab-btn:focus-visible,
+#mazes-game-sheet .gs-tab-btn.active {
+  outline: none !important;
+  box-shadow: none !important;
 }
 
 .mazes-game-sheet {

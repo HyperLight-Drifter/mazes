@@ -46,7 +46,7 @@ const ROLE_STATS = {
 export class MazesCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
     classes: ["mazes", "sheet", "actor", "character"],
-    position: { width: 600, height: 735 },
+    position: { width: 600, height: 770 },
     window: { resizable: true },
     form:   { submitOnChange: true },
   };

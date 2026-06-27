@@ -122,6 +122,10 @@
             <span class="mazes-label">CLASS</span>
             <button type="button" class="section-add-btn" data-type="class">+</button>
           </div>
+          <div class="class-level-row">
+            <span class="class-level-label">Level</span>
+            <input type="number" class="class-level-input" name="system.classLevel" value="{{system.classLevel}}" min="0" max="99" />
+          </div>
           <div class="drop-zone" data-type="class">
             {{#if cls}}
             <div class="item-entry" data-item-id="{{cls.id}}">

@@ -3,6 +3,7 @@ const SETTINGS = {
   treasure:    "treasure",
   playerCount: "playerCount",
   supply:      "supply",
+  artifacts: "artifacts",
 };
 
 export function registerGameSheetSettings() {
@@ -17,6 +18,12 @@ export function registerGameSheetSettings() {
   });
   game.settings.register("mazes", SETTINGS.supply, {
     scope: "world", config: false, type: Number, default: 0,
+  });
+  game.settings.register("mazes", "artifacts", {
+  scope: "world", config: false, type: Number, default: 0,
+  });
+  game.settings.register("mazes", "gameSheetTab", {
+    scope: "client", config: false, type: String, default: "core",
   });
   game.settings.register("mazes", "gameSheetPos", {
     scope: "client", config: false, type: Object, default: { left: 20, top: null, bottom: 60 },
@@ -71,8 +78,10 @@ export class GameSheet extends Application {
     const darkness    = game.settings.get("mazes", "darkness");
     const treasure    = game.settings.get("mazes", "treasure");
     const playerCount = game.settings.get("mazes", "playerCount");
-    const supply      = game.settings.get("mazes", "supply");
+    const supply      = game.settings.get("mazes", "supply");    
     const isGM        = game.user.isGM;
+    const artifacts = game.settings.get("mazes", "artifacts");
+    const activeTab = game.settings.get("mazes", "gameSheetTab");
 
     return {
       darkness,
@@ -83,7 +92,11 @@ export class GameSheet extends Application {
       treasureLabel:   getTreasureLabel(playerCount, treasure),
       treasureComment: getTreasureComment(playerCount, treasure),
       supply,
+      artifacts,
       isGM,
+      activeTab,
+      isCore:   activeTab === "core",
+      isBeyond: activeTab === "beyond",
     };
   }
 
@@ -91,6 +104,13 @@ export class GameSheet extends Application {
     super.activateListeners(html);
     if (!game.user.isGM) return;
 
+    // Tab buttons
+    html.find(".gs-tab-btn").on("click", async (e) => {
+      const tab = e.currentTarget.dataset.tab;
+      await game.settings.set("mazes", "gameSheetTab", tab);
+      this.render(false);
+    });
+    
     // Scroll to modify number inputs
     html.find(".gs-input").on("wheel", (e) => {
       e.preventDefault();
