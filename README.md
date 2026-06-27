@@ -15,9 +15,10 @@ AI usage: Claude AI was involved in creation of the system.
 - Effect rolls with exploding dice and Advantage / Normal / Disadvantage
 - Chaos rolls with Advantage / Normal / Disadvantage
 - Healing and Death's Door rolls with full resolution text
-- Conditions tab with togglable active state by either clicking, or inputting custom text
-- Milestones tab with checkable, strike-through milestone entries
-- Notes tab
+- **Conditions** tab with togglable active state by either clicking, or inputting custom text
+- **Campaign** tab with company name, drive, drive die and drag-and-drop zones for hexcrawl and downtime actions. Rollbuttons for said actions.
+- **Milestones** tab with checkable, strike-through milestone entries
+- **Notes** tab
 
 - **Hazard sheet** 
 - name, Danger and Hearts trackers
@@ -30,6 +31,7 @@ AI usage: Claude AI was involved in creation of the system.
 - **Aspect** — description
 - **Class** — description
 - **Edge** — description
+- **Campaign Action** - items for intended for hexcrawl actions and downtime actions with roll automation
 
 
 ### Game Sheet
