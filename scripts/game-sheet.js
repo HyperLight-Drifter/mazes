@@ -3,7 +3,7 @@ const SETTINGS = {
   treasure:    "treasure",
   playerCount: "playerCount",
   supply:      "supply",
-  artifacts: "artifacts",
+  artifacts:   "artifacts",
 };
 
 export function registerGameSheetSettings() {
@@ -20,7 +20,7 @@ export function registerGameSheetSettings() {
     scope: "world", config: false, type: Number, default: 0,
   });
   game.settings.register("mazes", "artifacts", {
-  scope: "world", config: false, type: Number, default: 0,
+    scope: "world", config: false, type: Number, default: 0,
   });
   game.settings.register("mazes", "gameSheetTab", {
     scope: "client", config: false, type: String, default: "core",
@@ -43,45 +43,38 @@ function getDarknessComment(d) {
 }
 
 function getTreasureLabel(players, treasure) {
-  if (treasure < players) return "SKINT";
-  if (treasure > players * 2) return "ENCUMBERED";
+  if (treasure < players)      return "SKINT";
+  if (treasure > players * 2)  return "ENCUMBERED";
   return "FLUSH";
 }
 
 function getTreasureComment(players, treasure) {
   const label = getTreasureLabel(players, treasure);
-  if (label === "SKINT" || label === "ENCUMBERED") return "Add Darkness.";
-  return "";
+  return (label === "SKINT" || label === "ENCUMBERED") ? "Add Darkness." : "";
 }
 
-export class GameSheet extends Application {
-  static get defaultOptions() {
-    const pos = game.settings.get("mazes", "gameSheetPos");
-    return foundry.utils.mergeObject(super.defaultOptions, {
-      id:          "mazes-game-sheet",
-      title:       "Game Sheet",
-      template:    "systems/mazes/templates/game-sheet.hbs",
-      popOut:      true,
-      resizable:   false,
-      minimizable: true,
-      closable: false,
-      width:  210,
-      height: "auto",
-      ...( pos.top !== null
-        ? { top: pos.top,    left: pos.left }
-        : { bottom: pos.bottom ?? 60, left: pos.left ?? 20 }
-      ),
-    });
-  }
+const { HandlebarsApplicationMixin, ApplicationV2 } = foundry.applications.api;
 
-  getData() {
+export class GameSheet extends HandlebarsApplicationMixin(ApplicationV2) {
+  static DEFAULT_OPTIONS = {
+    id:       "mazes-game-sheet",
+    classes:  ["mazes"],
+    window:   { title: "Game Sheet", resizable: false, minimizable: true },
+    position: { width: 210 },
+  };
+
+  static PARTS = {
+    sheet: { template: "systems/mazes/templates/game-sheet.hbs" },
+  };
+
+  async _prepareContext(options) {
     const darkness    = game.settings.get("mazes", "darkness");
     const treasure    = game.settings.get("mazes", "treasure");
     const playerCount = game.settings.get("mazes", "playerCount");
-    const supply      = game.settings.get("mazes", "supply");    
+    const supply      = game.settings.get("mazes", "supply");
+    const artifacts   = game.settings.get("mazes", "artifacts");
     const isGM        = game.user.isGM;
-    const artifacts = game.settings.get("mazes", "artifacts");
-    const activeTab = game.settings.get("mazes", "gameSheetTab");
+    const activeTab   = game.settings.get("mazes", "gameSheetTab");
 
     return {
       darkness,
@@ -100,47 +93,60 @@ export class GameSheet extends Application {
     };
   }
 
-  activateListeners(html) {
-    super.activateListeners(html);
+  _onRender(context, options) {
+    super._onRender(context, options);
+    const html = this.element;
     if (!game.user.isGM) return;
 
+    // Restore saved position
+    const pos = game.settings.get("mazes", "gameSheetPos");
+    if (pos.top !== null) {
+      this.setPosition({ left: pos.left, top: pos.top });
+    } else {
+      this.setPosition({ left: pos.left ?? 20 });
+    }
+
     // Tab buttons
-    html.find(".gs-tab-btn").on("click", async (e) => {
-      const tab = e.currentTarget.dataset.tab;
-      await game.settings.set("mazes", "gameSheetTab", tab);
-      this.render(false);
+    html.querySelectorAll(".gs-tab-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        await game.settings.set("mazes", "gameSheetTab", btn.dataset.tab);
+        this.render(false);
+      });
     });
-    
+
     // Scroll to modify number inputs
-    html.find(".gs-input").on("wheel", (e) => {
-      e.preventDefault();
-      const input = e.currentTarget;
-      const key   = input.dataset.setting;
-      const delta = e.originalEvent.deltaY < 0 ? 1 : -1;
-      const min   = parseInt(input.dataset.min ?? 0);
-      const current = game.settings.get("mazes", key);
-      const next    = Math.max(min, current + delta);
-      this._setSetting(key, next);
+    html.querySelectorAll(".gs-input").forEach(input => {
+      input.addEventListener("wheel", async (e) => {
+        e.preventDefault();
+        const key     = input.dataset.setting;
+        const delta   = e.deltaY < 0 ? 1 : -1;
+        const min     = parseInt(input.dataset.min ?? 0);
+        const current = game.settings.get("mazes", key);
+        const next    = Math.max(min, current + delta);
+        await this._setSetting(key, next);
+      });
     });
 
     // Plus/minus buttons
-    html.find(".gs-btn").on("click", (e) => {
-      const btn   = e.currentTarget;
-      const key   = btn.dataset.setting;
-      const delta = btn.dataset.dir === "up" ? 1 : -1;
-      const min   = parseInt(btn.dataset.min ?? 0);
-      const current = game.settings.get("mazes", key);
-      const next    = Math.max(min, current + delta);
-      this._setSetting(key, next);
+    html.querySelectorAll(".gs-btn").forEach(btn => {
+      btn.addEventListener("click", async () => {
+        const key     = btn.dataset.setting;
+        const delta   = btn.dataset.dir === "up" ? 1 : -1;
+        const min     = parseInt(btn.dataset.min ?? 0);
+        const current = game.settings.get("mazes", key);
+        const next    = Math.max(min, current + delta);
+        await this._setSetting(key, next);
+      });
     });
 
     // Manual input
-    html.find(".gs-input").on("change", (e) => {
-      const input = e.currentTarget;
-      const key   = input.dataset.setting;
-      const min   = parseInt(input.dataset.min ?? 0);
-      const next  = Math.max(min, parseInt(input.value) || 0);
-      this._setSetting(key, next);
+    html.querySelectorAll(".gs-input").forEach(input => {
+      input.addEventListener("change", async () => {
+        const key  = input.dataset.setting;
+        const min  = parseInt(input.dataset.min ?? 0);
+        const next = Math.max(min, parseInt(input.value) || 0);
+        await this._setSetting(key, next);
+      });
     });
   }
 
@@ -149,20 +155,18 @@ export class GameSheet extends Application {
     this.render(false);
   }
 
-  async close(options={}) {
-  return this;
-}
+  // Prevent closing
+  async close(options = {}) {
+    return this;
+  }
 
-  setPosition(pos = {}) {
-    const result = super.setPosition(pos);
-    const el     = this.element[0];
-    if (!el) return result;
-    const saved = {
-      left:   parseInt(el.style.left),
-      top:    parseInt(el.style.top),
+  // Save position on move
+  _onPosition(position) {
+    super._onPosition?.(position);
+    game.settings.set("mazes", "gameSheetPos", {
+      left:   position.left,
+      top:    position.top,
       bottom: null,
-    };
-    game.settings.set("mazes", "gameSheetPos", saved);
-    return result;
+    });
   }
 }

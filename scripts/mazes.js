@@ -82,33 +82,29 @@ Hooks.once("ready", () => {
 Hooks.on("combatStart", async (combat) => {
   if (!game.user.isGM) return;
 
-  new Dialog({
-    title: "Initiative",
+  const result = await foundry.applications.api.DialogV2.wait({
+    window: { title: "Initiative" },
     content: `<p style="font-family:'Ruslan Display',serif; font-size:18px; text-transform:uppercase; text-align:center; margin:8px 0;">Who has initiative?</p>`,
-    buttons: {
-      players: {
-        label: "Players",
-        callback: () => _setInitiative(combat, "players"),
-      },
-      hazards: {
-        label: "Hazards",
-        callback: () => _setInitiative(combat, "hazards"),
-      },
-    },
-  }).render(true);
+    buttons: [
+      { action: "players", label: "Players", default: true },
+      { action: "hazards", label: "Hazards" },
+    ],
+  });
 
-    async function _setInitiative(combat, first) {
-      const updates = combat.combatants.map(c => ({
-        _id: c.id,
-        initiative: c.actor?.type === "character"
-          ? (first === "players" ? 1 : 0)
-          : (first === "players" ? 0 : 1),
-      }));
-      await combat.updateEmbeddedDocuments("Combatant", updates);
-      const firstTurn = combat.turns[0];
-      if (firstTurn) await combat.update({ turn: 0 });
-    }
- }); 
+  if (!result) return;
+  await _setInitiative(combat, result);
+
+  async function _setInitiative(combat, first) {
+    const updates = combat.combatants.map(c => ({
+      _id: c.id,
+      initiative: c.actor?.type === "character"
+        ? (first === "players" ? 1 : 0)
+        : (first === "players" ? 0 : 1),
+    }));
+    await combat.updateEmbeddedDocuments("Combatant", updates);
+    if (combat.turns[0]) await combat.update({ turn: 0 });
+  }
+});
 
 Hooks.on("preCreateActor", (document, data) => {
   if (data.name && data.name !== "New Actor") return;

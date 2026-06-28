@@ -1,0 +1,21 @@
+<div class="mrd-body">
+
+  {{!-- Action picker (campaign only) --}}
+  {{#if isCampaign}}
+  <div class="mrd-row" id="mrd-actions">
+    <button type="button" class="mrd-btn {{#if (eq selection.action 'books')}}selected{{/if}}"   data-action="books">BOOKS</button>
+    <button type="button" class="mrd-btn {{#if (eq selection.action 'boots')}}selected{{/if}}"   data-action="boots">BOOTS</button>
+    <button type="button" class="mrd-btn {{#if (eq selection.action 'blades')}}selected{{/if}}"  data-action="blades">BLADES</button>
+    <button type="button" class="mrd-btn {{#if (eq selection.action 'bones')}}selected{{/if}}"   data-action="bones">BONES</button>
+  </div>
+  <div class="mrd-divider"></div>
+  {{/if}}
+
+  {{!-- Mode picker --}}
+  <div class="mrd-row" id="mrd-modes">
+    <button type="button" class="mrd-btn {{#if (eq selection.mode 'advantage')}}selected{{/if}}"    data-mode="advantage">ADV</button>
+    <button type="button" class="mrd-btn {{#if (eq selection.mode 'normal')}}selected{{/if}}"       data-mode="normal">NORMAL</button>
+    <button type="button" class="mrd-btn {{#if (eq selection.mode 'disadvantage')}}selected{{/if}}" data-mode="disadvantage">DIS</button>
+  </div>
+
+</div>

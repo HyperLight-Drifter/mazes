@@ -1,0 +1,95 @@
+/* ── ROLL DIALOG ── */
+.mazes-roll-dialog .window-content {
+  background: var(--mazes-bg);
+  color: var(--mazes-text);
+  padding: 0;
+}
+
+.mrd-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+}
+
+.mrd-row {
+  display: flex;
+  gap: 6px;
+}
+
+.mrd-divider {
+  height: 1px;
+  background: #444;
+  margin: 0 -10px;
+}
+
+.mrd-btn {
+  flex: 1;
+  font-family: 'Ruslan Display', serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 7px 6px;
+  background: var(--mazes-bg-light);
+  border: 1px solid #444;
+  color: var(--mazes-text);
+  cursor: pointer;
+  transition: background 0.1s, color 0.1s;
+}
+
+.mrd-btn:hover {
+  background: #333;
+}
+
+.mrd-btn.selected {
+  background: var(--mazes-text);
+  color: var(--mazes-bg);
+  border-color: var(--mazes-text);
+}
+
+.mrd-footer {
+  display: flex;
+  gap: 6px;
+  margin-top: 4px;
+}
+
+.mrd-cancel {
+  flex: 1;
+  font-family: 'Ruslan Display', serif;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 7px 6px;
+  background: transparent;
+  border: 1px solid #444;
+  color: var(--mazes-text);
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+.mrd-cancel:hover {
+  opacity: 1;
+}
+
+.mrd-confirm {
+  flex: 2;
+  font-family: 'Ruslan Display', serif;
+  font-size: 15px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 7px 10px;
+  background: var(--mazes-text);
+  border: 1px solid var(--mazes-text);
+  color: var(--mazes-bg);
+  cursor: pointer;
+}
+
+.mrd-confirm:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.mrd-confirm:not(:disabled):hover {
+  background: #ccc;
+  border-color: #ccc;
+}

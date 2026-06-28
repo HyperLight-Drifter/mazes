@@ -9,7 +9,7 @@
   },
   "authors": [{ "name": "starec" }],
   "esmodules": ["scripts/mazes.js", "scripts/game-sheet.js"],
-  "styles": ["styles/mazes.css"],
+  "styles": ["styles/mazes.css", "styles/roll-dialog.css"],
   "documentTypes": {
     "Actor": {
       "character": {},
