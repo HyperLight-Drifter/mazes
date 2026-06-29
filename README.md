@@ -31,8 +31,7 @@ AI usage: Claude AI was involved in creation of the system.
 - **Aspect** — description
 - **Class** — description
 - **Edge** — description
-- **Campaign Action** - items for intended for hexcrawl actions and downtime actions with roll automation
-
+- **Campaign Action** - items for hexcrawl and downtime actions with roll automation
 
 ### Game Sheet
 - Persistent floating widget visible to all connected users
@@ -41,6 +40,9 @@ AI usage: Claude AI was involved in creation of the system.
 - Tracks Supply
 - GM-editable, player-visible
 - Per-user repositionable, minimizable
+
+### Combat tracker
+- upon clicking Start combat select which side of conflict goes first - Players or Hazards
 
 ## Compatibility
 - Foundry VTT v14
