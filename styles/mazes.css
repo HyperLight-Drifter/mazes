@@ -23,6 +23,11 @@
   box-shadow: inset 0 0 0 1px #4a4a4a;
 }
 
+.mazes.sheet .window-content {
+  background: #111111;
+  padding: 0;
+}
+
 /* ── SHEET WRAPPER ── */
 .mazes-sheet {
   display: flex;
@@ -104,9 +109,12 @@
 }
 
 /* ── STANDARD INPUT ── */
-.mazes-input {
+.mazes .mazes-input {
   background: var(--mazes-input-bg);
   border: none;
+  border-radius: 0;
+  box-shadow: none;
+  outline: none;
   color: var(--mazes-input-text);
   padding: 0 4px;
   font-size: 14px;
@@ -616,9 +624,11 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   color: var(--mazes-input-text);
   font-size: 14px;
   padding: 8px;
-  resize: vertical;
+  resize: none;
   font-family: ui-sans-serif, sans-serif;
   line-height: 1.5;
+  field-sizing: content;
+  overflow: hidden;
 }
 
 .full-textarea:focus {
