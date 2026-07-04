@@ -116,3 +116,24 @@ Hooks.on("preCreateItem", (document, data) => {
   document.updateSource({ name: game.i18n.localize(`TYPES.Item.${document.type}`) });
 });
 
+Hooks.on("preCreateActor", (document, data) => {
+  const updates = {};
+
+  if (!data.name || data.name === "New Actor") {
+    updates.name = game.i18n.localize(`TYPES.Actor.${document.type}`);
+  }
+
+  if (document.type === "character") {
+    updates.prototypeToken = {
+      bar1: { attribute: "hearts" },
+      bar2: { attribute: "stars" },
+    };
+  } else if (document.type === "hazard") {
+    updates.prototypeToken = {
+      bar1: { attribute: "hearts" },
+    };
+  }
+
+  document.updateSource(updates);
+});
+
