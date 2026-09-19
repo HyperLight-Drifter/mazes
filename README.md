@@ -42,7 +42,11 @@ AI usage: Claude AI was involved in creation of the system.
 - Per-user repositionable, minimizable
 
 ### Combat tracker
-- upon clicking Start combat select which side of conflict goes first - Players or Hazards
+- combatants are divided between PCs and Hazards and can be freely dragged between those groups
+- combatants have editable Hearts and Stars, Hazards display Danger
+- left click to grey out a character who had their turn, right click to undo
+- next turn automatically ungrey all
+- recommendation: turn off enable markers in core settings/combat tracker
 
 ## Compatibility
 - Foundry VTT v14
