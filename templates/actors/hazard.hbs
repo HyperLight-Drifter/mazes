@@ -35,6 +35,10 @@
 
       <div class="section-header">
         <span class="mazes-label">EDGES</span>
+        <div class="fold-all-controls">
+          <button type="button" class="fold-all-btn" data-fold="expand" title="Expand All">▼</button>
+          <button type="button" class="fold-all-btn" data-fold="collapse" title="Collapse All">▶</button>
+        </div>
         <button type="button" class="section-add-btn edge-add-btn">+</button>
       </div>
       <div class="two-columns">
@@ -48,7 +52,7 @@
                 <button type="button" class="item-edit-btn" data-item-id="{{edge.id}}">✎</button>
                 <button type="button" class="item-delete-btn" data-item-id="{{edge.id}}">×</button>
               </div>
-              <div class="item-body">{{edge.system.description}}</div>
+              <div class="item-body">{{{edge.system.description}}}</div>
             </div>
             {{else}}
             <span class="drop-hint">Drop edges here</span>
@@ -65,7 +69,7 @@
                 <button type="button" class="item-edit-btn" data-item-id="{{edge.id}}">✎</button>
                 <button type="button" class="item-delete-btn" data-item-id="{{edge.id}}">×</button>
               </div>
-              <div class="item-body">{{edge.system.description}}</div>
+              <div class="item-body">{{{edge.system.description}}}</div>
             </div>
             {{else}}
             <span class="drop-hint">Drop edges here</span>
@@ -77,7 +81,7 @@
       <div class="section-header" style="margin-top: 10px;">
         <span class="mazes-label">DESCRIPTION</span>
       </div>
-      <textarea class="full-textarea" name="system.notes">{{system.notes}}</textarea>
+        <prose-mirror name="system.notes" button="true" editable="{{editable}}" toggled="false" value="{{system.notes}}">{{{enrichedNotes}}}</prose-mirror>
 
     </div>
 

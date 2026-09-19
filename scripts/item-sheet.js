@@ -13,6 +13,16 @@ class MazesItemSheetBase extends HandlebarsApplicationMixin(ItemSheetV2) {
     const context = await super._prepareContext(options);
     context.item   = this.item;
     context.system = this.item.system;
+    context.editable = this.isEditable;
+
+    context.enrichedDescription = await foundry.applications.ux.TextEditor.enrichHTML(
+      this.item.system.description || "",
+      {
+        async: true,
+        secrets: this.item.isOwner,
+        relativeTo: this.item
+      }
+    );
     return context;
   }
 

@@ -77,6 +77,10 @@
           {{!-- ROLE --}}
           <div class="section-header">
             <span class="mazes-label">ROLE</span>
+            <div class="fold-all-controls">
+              <button type="button" class="fold-all-btn" data-fold="expand" title="Expand All">▼</button>
+              <button type="button" class="fold-all-btn" data-fold="collapse" title="Collapse All">▶</button>
+            </div>
             <button type="button" class="section-add-btn" data-type="role">+</button>
           </div>
           <div class="drop-zone" data-type="role">
@@ -89,7 +93,7 @@
                 <button type="button" class="item-edit-btn" data-item-id="{{role.id}}">✎</button>
                 <button type="button" class="item-delete-btn" data-item-id="{{role.id}}">×</button>
               </div>
-              <div class="item-body">{{role.system.description}}</div>
+              <div class="item-body">{{{role.system.description}}}</div>
             </div>
             {{else}}
             <span class="drop-hint">Drop role here</span>
@@ -110,7 +114,7 @@
                 <button type="button" class="item-edit-btn" data-item-id="{{aspect.id}}">✎</button>
                 <button type="button" class="item-delete-btn" data-item-id="{{aspect.id}}">×</button>
               </div>
-              <div class="item-body">{{aspect.system.description}}</div>
+              <div class="item-body">{{{aspect.system.description}}}</div>
             </div>
             {{else}}
             <span class="drop-hint">Drop aspect here</span>
@@ -135,7 +139,7 @@
                 <button type="button" class="item-edit-btn" data-item-id="{{cls.id}}">✎</button>
                 <button type="button" class="item-delete-btn" data-item-id="{{cls.id}}">×</button>
               </div>
-              <div class="item-body">{{cls.system.description}}</div>
+              <div class="item-body">{{{cls.system.description}}}</div>
             </div>
             {{else}}
             <span class="drop-hint">Drop class here</span>
@@ -156,7 +160,7 @@
                 <button type="button" class="item-edit-btn" data-item-id="{{edge.id}}">✎</button>
                 <button type="button" class="item-delete-btn" data-item-id="{{edge.id}}">×</button>
               </div>
-              <div class="item-body">{{edge.system.description}}</div>
+              <div class="item-body">{{{edge.system.description}}}</div>
             </div>
             {{else}}
             <span class="drop-hint">Drop edges here</span>
@@ -356,7 +360,7 @@
                   <button type="button" class="campaign-action-edit-btn" data-item-id="{{action.id}}">✎</button>
                   <button type="button" class="campaign-action-delete-btn" data-item-id="{{action.id}}">×</button>                  
                 </div>
-                <div class="item-body">{{action.system.description}}</div>
+                <div class="item-body">{{{action.system.description}}}</div>
               </div>
               {{else}}
               <span class="drop-hint">Drop campaign actions here</span>
@@ -368,6 +372,10 @@
           <div class="campaign-col">
             <div class="section-header">
               <span class="mazes-label">DOWNTIME</span>
+              <div class="fold-all-controls">
+                <button type="button" class="fold-all-btn" data-fold="expand" title="Expand All">▼</button>
+                <button type="button" class="fold-all-btn" data-fold="collapse" title="Collapse All">▶</button>
+              </div>
             </div>
             <div class="campaign-drop-zone drop-zone" data-slot="downtime">
               {{#each downtimeActions as |action|}}
@@ -387,7 +395,7 @@
                   <button type="button" class="campaign-action-edit-btn" data-item-id="{{action.id}}">✎</button>
                   <button type="button" class="campaign-action-delete-btn" data-item-id="{{action.id}}">×</button>                  
                 </div>
-                <div class="item-body">{{action.system.description}}</div>
+                <div class="item-body">{{{action.system.description}}}</div>
               </div>
               {{else}}
               <span class="drop-hint">Drop campaign actions here</span>
@@ -418,7 +426,7 @@
 
     {{!-- NOTES TAB --}}
     <div class="tab-content" data-tab="notes">
-      <textarea class="full-textarea" name="system.notes">{{system.notes}}</textarea>
+      <prose-mirror name="system.notes" button="true" editable="{{editable}}" toggled="false" value="{{system.notes}}">{{{enrichedNotes}}}</prose-mirror>
     </div>
 
   </div>{{!-- end mazes-body --}}

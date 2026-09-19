@@ -1,6 +1,20 @@
+export function plainTextToHtml(text) {
+  if (typeof text !== "string" || !text.trim()) return text;
+  if (/<\/?[a-z][^>]*>/i.test(text)) return text; // already HTML, leave it alone
+
+  const esc = s => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+  return text
+    .replace(/\r\n?/g, "\n")
+    .trim()
+    .split(/\n{2,}/)                                // blank line = new paragraph
+    .map(p => `<p>${esc(p).replace(/\n/g, "<br>")}</p>`)  // single line break = <br>
+    .join("");    
+}
+
 export class CharacterData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
-    const { StringField, NumberField, SchemaField, BooleanField } = foundry.data.fields;
+    const { StringField, NumberField, SchemaField, BooleanField, HTMLField } = foundry.data.fields;
+    
 
     return {
       concept: new StringField({ initial: "" }),
@@ -57,14 +71,18 @@ export class CharacterData extends foundry.abstract.TypeDataModel {
         { initial: [] }
       ),
 
-      notes: new StringField({ initial: "" }),
+      notes: new HTMLField({ required: false, blank: true, initial: "" }),
     };
+  }
+  static migrateData(source) {
+    if (typeof source.notes === "string") source.notes = plainTextToHtml(source.notes);
+    return super.migrateData(source);
   }
 }
 
 export class HazardData extends foundry.abstract.TypeDataModel {
   static defineSchema() {
-    const { StringField, NumberField, SchemaField, BooleanField } = foundry.data.fields;
+    const { StringField, NumberField, SchemaField, BooleanField, HTMLField } = foundry.data.fields;
     return {
       danger: new NumberField({ required: true, initial: 0, min: 0, integer: true }),
       hearts: new SchemaField({
@@ -72,7 +90,7 @@ export class HazardData extends foundry.abstract.TypeDataModel {
         max:   new NumberField({ required: true, initial: 6, min: 0, integer: true }),
       }),
       description: new StringField({ initial: "" }),
-      notes:       new StringField({ initial: "" }),
+      notes: new HTMLField({ required: false, blank: true, initial: "" }),
       conditions: new SchemaField({
         stressed: new BooleanField({ initial: false }),
         tired:    new BooleanField({ initial: false }),
@@ -97,6 +115,10 @@ export class HazardData extends foundry.abstract.TypeDataModel {
         }),
       }),
     };
+  }
+  static migrateData(source) {
+    if (typeof source.notes === "string") source.notes = plainTextToHtml(source.notes);
+    return super.migrateData(source);
   }
 }
 

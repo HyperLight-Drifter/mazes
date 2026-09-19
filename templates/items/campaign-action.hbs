@@ -9,7 +9,7 @@
 
   <div class="item-sheet-field">
     <span class="mazes-label">DESCRIPTION</span>
-    <textarea name="system.description">{{system.description}}</textarea>
+    <prose-mirror name="system.description" button="true" editable="{{editable}}" toggled="false" value="{{system.description}}">{{{enrichedDescription}}}</prose-mirror>
   </div>
 
 </div>

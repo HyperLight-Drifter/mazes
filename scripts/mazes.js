@@ -4,6 +4,8 @@ import { MazesHazardSheet } from "./hazard-sheet.js";
 import { MazesItem, itemDataModels } from "./item.js";
 import { MazesRoleSheet, MazesAspectSheet, MazesClassSheet, MazesEdgeSheet, MazesCampaignActionSheet } from "./item-sheet.js";
 import { registerGameSheetSettings, GameSheet } from "./game-sheet.js";
+import { MazesCombat } from "./combat.js";
+import "./combat-tracker.js";
 
 Hooks.once("init", () => {
   console.log("Mazes | Initialising Mazes");
@@ -23,6 +25,7 @@ Hooks.once("init", () => {
   };
 
   CONFIG.Item.documentClass = MazesItem;
+  CONFIG.Combat.documentClass = MazesCombat;
   CONFIG.Item.dataModels    = itemDataModels;
 
   Handlebars.registerHelper("eq",   (a, b) => a === b);
@@ -77,33 +80,6 @@ Hooks.once("ready", () => {
   Hooks.on("updateSetting", (setting) => {
     if (setting.key?.startsWith("mazes.")) sheet.render(false);
   });
-});
-
-Hooks.on("combatStart", async (combat) => {
-  if (!game.user.isGM) return;
-
-  const result = await foundry.applications.api.DialogV2.wait({
-    window: { title: "Initiative" },
-    content: `<p style="font-family:'Ruslan Display',serif; font-size:18px; text-transform:uppercase; text-align:center; margin:8px 0;">Who has initiative?</p>`,
-    buttons: [
-      { action: "players", label: "Players", default: true },
-      { action: "hazards", label: "Hazards" },
-    ],
-  });
-
-  if (!result) return;
-  await _setInitiative(combat, result);
-
-  async function _setInitiative(combat, first) {
-    const updates = combat.combatants.map(c => ({
-      _id: c.id,
-      initiative: c.actor?.type === "character"
-        ? (first === "players" ? 1 : 0)
-        : (first === "players" ? 0 : 1),
-    }));
-    await combat.updateEmbeddedDocuments("Combatant", updates);
-    if (combat.turns[0]) await combat.update({ turn: 0 });
-  }
 });
 
 Hooks.on("preCreateActor", (document, data) => {

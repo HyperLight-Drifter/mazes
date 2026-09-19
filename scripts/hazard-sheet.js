@@ -24,6 +24,17 @@ export class MazesHazardSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     context.edgesLeft  = edges.filter((_, i) => i % 2 === 0);
     context.edgesRight = edges.filter((_, i) => i % 2 !== 0);
 
+    context.editable = this.isEditable;
+
+    context.enrichedNotes = await foundry.applications.ux.TextEditor.enrichHTML(
+      this.actor.system.notes || "",
+      {
+        async: true,
+        secrets: this.actor.isOwner,
+        relativeTo: this.actor
+      }
+    );
+
     return context;
   }
 
@@ -56,8 +67,18 @@ export class MazesHazardSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
     });
 
     html.querySelectorAll(".item-entry").forEach(entry => {
-      entry.querySelector(".fold-btn")?.addEventListener("click", () => {
+      entry.querySelector(".item-header")?.addEventListener("click", (event) => {
+        if (event.target.closest("button:not(.fold-btn), input, a")) return;
         entry.classList.toggle("unfolded");
+      });
+    });
+
+    html.querySelectorAll(".fold-all-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const expand = btn.dataset.fold === "expand";
+        btn.closest(".tab-content")
+          ?.querySelectorAll(".item-entry")
+          .forEach(entry => entry.classList.toggle("unfolded", expand));
       });
     });
 

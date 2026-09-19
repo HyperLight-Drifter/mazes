@@ -316,6 +316,35 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   opacity: 0.7;
 }
 
+/* ── FOLD / UNFOLD ALL ── */
+.fold-all-controls {
+  display: flex;
+  gap: 6px;
+  margin-left: auto;
+  margin-right: 4px;
+}
+
+.fold-all-btn {
+  background: none;
+  border: none;
+  color: var(--mazes-label);
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0 2px;
+  line-height: 1;
+  outline: none;
+}
+
+.fold-all-btn:hover {
+  opacity: 0.7;
+}
+
+.fold-all-btn:focus,
+.fold-all-btn:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
 /* ── CLASS ROW ── */
 .class-level-row {
   display: flex;
@@ -383,6 +412,7 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 }
 
 .item-header {
+  cursor: pointer;
   display: flex;
   align-items: center;
   gap: 5px;
@@ -468,8 +498,11 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   font-size: 14px;
   color: var(--mazes-input-text);
   line-height: 1.5;
-  white-space: pre-wrap;
+  white-space: normal;
 }
+
+.item-body p { margin: 0 0 6px 0; }
+.item-body p:last-child { margin-bottom: 0; }
 
 .item-entry.unfolded .item-body {
   display: block;
@@ -633,6 +666,27 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
 
 .full-textarea:focus {
   outline: none;
+}
+
+/* ── PROSE-MIRROR EDITOR ── */
+.mazes prose-mirror .editor-content {
+  position: relative;
+  inset: auto;
+  overflow-y: visible;
+  height: auto;
+  min-height: 120px;
+  box-sizing: border-box;
+  background: var(--mazes-input-bg);
+  color: var(--mazes-input-text);
+  font-family: ui-sans-serif, sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 8px;
+}
+
+/* Character Notes tab: keep the tall writing area the old textarea had */
+.mazes .tab-content[data-tab="notes"] prose-mirror .editor-content {
+  min-height: 420px;
 }
 
 /* ── CAMPAIGN TAB ── */
@@ -1203,4 +1257,64 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   text-align: center;
   display: block;
   width: 100%;
+}
+
+/* ── COMBAT TRACKER ── */
+.combat-tracker .token-initiative {
+  display: none;
+}
+
+.combat-tracker-header .control-buttons.left {
+  display: none;
+}
+
+.mazes-tracker-group-label {
+  margin: 4px 8px;
+  font-size: 20px;
+  font-family: 'Ruslan Display', serif;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.mazes-tracker-sublist {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  min-height: 20px; /* keeps an empty section a valid drop target */
+}
+
+.mazes-resource-block {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+  max-width: 100%;
+}
+
+.mazes-resource {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.9em;
+}
+
+.mazes-resource-label {
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+.mazes-resource-input {
+  box-sizing: border-box;
+  text-align: center;
+  font-size: 0.85em;
+  padding: 0 2px;
+}
+
+.mazes-resource-max {
+  opacity: 0.7;
+}
+
+.combat-tracker li.combatant.mazes-turn-taken {
+  opacity: 0.45;
+  filter: grayscale(70%);
 }

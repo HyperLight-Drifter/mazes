@@ -42,8 +42,18 @@ export class MazesCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
     context.downtimeActions = this.actor.items.filter(i => i.type === "campaignAction" && i.system.slot === "downtime");
     context.companyDieOptions = ["d4", "d6", "d8", "d10"].map(d => ({
       value:    d,
-      selected: d === (this.actor.system.companyDie ?? "d6"),
+      selected: d === (this.actor.system.companyDie ?? "d6"),    
     }));
+    context.editable = this.isEditable;
+
+    context.enrichedNotes = await foundry.applications.ux.TextEditor.enrichHTML(
+      this.actor.system.notes || "",
+      {
+        async: true,
+        secrets: this.actor.isOwner,
+        relativeTo: this.actor
+      }
+    );
     return context;
   }
 
@@ -110,8 +120,19 @@ export class MazesCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2
 
     // ── Fold toggles ────────────────────────────────────────────────────────
     html.querySelectorAll(".item-entry").forEach(entry => {
-      entry.querySelector(".fold-btn")?.addEventListener("click", () => {
+      entry.querySelector(".item-header")?.addEventListener("click", (event) => {
+        if (event.target.closest("button:not(.fold-btn), input, a")) return;
         entry.classList.toggle("unfolded");
+      });
+    });
+
+    // ── Fold / unfold all ───────────────────────────────────────────────────
+    html.querySelectorAll(".fold-all-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        const expand = btn.dataset.fold === "expand";
+        btn.closest(".tab-content")
+          ?.querySelectorAll(".item-entry")
+          .forEach(entry => entry.classList.toggle("unfolded", expand));
       });
     });
 

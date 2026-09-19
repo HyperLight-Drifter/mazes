@@ -1,46 +1,55 @@
-export class RoleData extends foundry.abstract.TypeDataModel {
+import { plainTextToHtml } from "./actor-data.js";
+
+class DescriptionData extends foundry.abstract.TypeDataModel {
+  static migrateData(source) {
+    if (typeof source.description === "string") source.description = plainTextToHtml(source.description);
+    return super.migrateData(source);
+  }
+}
+
+export class RoleData extends DescriptionData {
   static defineSchema() {
-    const { StringField } = foundry.data.fields;
+    const { StringField, HTMLField } = foundry.data.fields;
     return {
       die:         new StringField({ initial: "d6", choices: ["d4", "d6", "d8", "d10"] }),
-      description: new StringField({ initial: "" }),
+      description: new HTMLField({ required: false, blank: true, initial: "" }),
     };
   }
 }
 
-export class AspectData extends foundry.abstract.TypeDataModel {
+export class AspectData extends DescriptionData {
   static defineSchema() {
-    const { StringField } = foundry.data.fields;
+    const { StringField, HTMLField } = foundry.data.fields;
     return {
-      description: new StringField({ initial: "" }),
+      description: new HTMLField({ required: false, blank: true, initial: "" }),
     };
   }
 }
 
-export class ClassData extends foundry.abstract.TypeDataModel {
+export class ClassData extends DescriptionData {
   static defineSchema() {
-    const { StringField } = foundry.data.fields;
+    const { StringField, HTMLField } = foundry.data.fields;
     return {
       die:         new StringField({ initial: "d6", choices: ["d4", "d6", "d8", "d10"] }),
-      description: new StringField({ initial: "" }),
+      description: new HTMLField({ required: false, blank: true, initial: "" }),
     };
   }
 }
 
-export class EdgeData extends foundry.abstract.TypeDataModel {
+export class EdgeData extends DescriptionData {
   static defineSchema() {
-    const { StringField } = foundry.data.fields;
+    const { StringField, HTMLField } = foundry.data.fields;
     return {
-      description: new StringField({ initial: "" }),
+      description: new HTMLField({ required: false, blank: true, initial: "" }),
     };
   }
 }
 
-export class CampaignActionData extends foundry.abstract.TypeDataModel {
+export class CampaignActionData extends DescriptionData {
   static defineSchema() {
-    const { StringField } = foundry.data.fields;
+    const { StringField, HTMLField } = foundry.data.fields;
     return {
-      description: new StringField({ initial: "" }),
+      description: new HTMLField({ required: false, blank: true, initial: "" }),
       slot:        new StringField({ initial: "hexcrawl", choices: ["hexcrawl", "downtime"] }),
     };
   }
