@@ -1105,10 +1105,9 @@ input[type="number"].mazes-input::-webkit-inner-spin-button {
   height: auto;
 }
 
-#mazes-game-sheet .header-button.close {
+#mazes-game-sheet .header-control[data-action="close"] {
   display: none;
 }
-
 #mazes-game-sheet .window-header {
   background: var(--mazes-bg);
   border-bottom: 1px solid #444;

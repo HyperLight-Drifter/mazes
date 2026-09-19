@@ -3,7 +3,7 @@ const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 class MazesItemSheetBase extends HandlebarsApplicationMixin(ItemSheetV2) {
   static DEFAULT_OPTIONS = {
-    classes: ["mazes", "sheet", "item"],
+    classes: ["mazes", "sheet", "item", "themed", "theme-dark"],
     position: { width: 420, height: 400 },
     window: { resizable: true },
     form:   { submitOnChange: true },

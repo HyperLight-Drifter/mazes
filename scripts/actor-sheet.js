@@ -18,7 +18,7 @@ const { HandlebarsApplicationMixin } = foundry.applications.api;
 
 export class MazesCharacterSheet extends HandlebarsApplicationMixin(ActorSheetV2) {
   static DEFAULT_OPTIONS = {
-    classes: ["mazes", "sheet", "actor", "character"],
+    classes: ["mazes", "sheet", "actor", "character", "themed", "theme-dark"],
     position: { width: 600, height: 770 },
     window: { resizable: true },
     form:   { submitOnChange: true },
