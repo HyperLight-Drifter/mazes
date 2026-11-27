@@ -20,11 +20,15 @@ AI usage: Claude AI was involved in creation of the system.
 - **Milestones** tab with checkable, strike-through milestone entries
 - **Notes** tab
 
+<img width="596" height="770" alt="image" src="https://github.com/user-attachments/assets/23437031-1fae-4e76-aa1c-4952cef21dd2" /> <img width="597" height="773" alt="image" src="https://github.com/user-attachments/assets/f1464b31-a6cc-4b99-91f0-9cf4c3d0ead1" />
+
 - **Hazard sheet** 
 - name, Danger and Hearts trackers
 - Edge items in two-column layout
 - Description 
 - Conditions tab matching the character sheet
+<img width="597" height="515" alt="image" src="https://github.com/user-attachments/assets/d2f660f8-e0d3-4e38-b113-640796e81ff2" />
+
 
 ### Items
 - **Role** — die size (d4/d6/d8/d10), description, derived Hearts and Stars display
@@ -32,6 +36,8 @@ AI usage: Claude AI was involved in creation of the system.
 - **Class** — description
 - **Edge** — description
 - **Campaign Action** - items for hexcrawl and downtime actions with roll automation
+<img width="1263" height="744" alt="image" src="https://github.com/user-attachments/assets/19f77350-895c-4f74-af62-32c18e57ba95" />
+
 
 ### Game Sheet
 - Persistent floating widget visible to all connected users
@@ -40,6 +46,10 @@ AI usage: Claude AI was involved in creation of the system.
 - Tracks Supply
 - GM-editable, player-visible
 - Per-user repositionable, minimizable
+<img width="214" height="422" alt="image" src="https://github.com/user-attachments/assets/de743986-5e55-4dbf-bdc7-46bc7abc5265" />
+<img width="212" height="369" alt="image" src="https://github.com/user-attachments/assets/06b3d2d3-085e-46aa-b20c-5ead6c78cc57" />
+
+
 
 ### Combat tracker
 - combatants are divided between PCs and Hazards and can be freely dragged between those groups
